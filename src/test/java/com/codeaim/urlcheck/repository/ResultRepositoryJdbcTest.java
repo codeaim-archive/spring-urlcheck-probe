@@ -404,4 +404,69 @@ public class ResultRepositoryJdbcTest
 
         Assert.assertEquals("updated", savedUpdatedResultDto.getProbe());
     }
+
+    @Test
+    public void batchInsert()
+    {
+        UserDto userDto = UserDto.builder()
+                .name("name")
+                .email("email@example.com")
+                .resetToken("resetToken")
+                .accessToken("accessToken")
+                .password("password")
+                .emailVerified(true)
+                .build();
+
+        UserDto savedUserDto = userRepository.save(userDto);
+
+        CheckDto checkDto = CheckDto.builder()
+                .userId(savedUserDto.getId())
+                .name("name")
+                .url("http://www.example.com")
+                .probe("probe")
+                .status(Status.UNKNOWN)
+                .state(State.WAITING)
+                .interval(1)
+                .confirming(true)
+                .version(1)
+                .build();
+
+        CheckDto savedCheckDto = checkRepository.save(checkDto);
+
+        ResultDto firstResultDto = ResultDto.builder()
+                .checkId(savedCheckDto.getId())
+                .status(Status.UNKNOWN)
+                .probe("probe")
+                .statusCode(200)
+                .responseTime(1000)
+                .changed(true)
+                .confirmation(true)
+                .created(Instant.now())
+                .modified(Instant.now())
+                .version(1)
+                .build();
+
+        ResultDto secondResultDto = ResultDto.builder()
+                .checkId(savedCheckDto.getId())
+                .status(Status.UNKNOWN)
+                .probe("probe")
+                .statusCode(200)
+                .responseTime(1000)
+                .changed(true)
+                .confirmation(true)
+                .created(Instant.now())
+                .modified(Instant.now())
+                .version(1)
+                .build();
+
+        int insertCount = Arrays.stream(
+                resultRepository.batchInsert(
+                        Arrays.asList(firstResultDto, secondResultDto)))
+                .sum();
+
+        userRepository.delete(savedUserDto);
+        checkRepository.delete(savedCheckDto);
+
+        Assert.assertEquals(2, insertCount);
+    }
 }

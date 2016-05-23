@@ -2,9 +2,7 @@ package com.codeaim.urlcheck.repository.jdbc;
 
 import com.codeaim.urlcheck.domain.CheckDto;
 import com.codeaim.urlcheck.domain.ResultDto;
-import com.codeaim.urlcheck.domain.State;
 import com.codeaim.urlcheck.domain.Status;
-import com.codeaim.urlcheck.repository.CheckRepository;
 import com.codeaim.urlcheck.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -194,5 +193,33 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .modified(rs.getTimestamp("modified").toInstant())
                 .version(rs.getLong("version"))
                 .build();
+    }
+
+    @Override
+    public int[] batchInsert(List<ResultDto> resultDtos)
+    {
+        String insertSql = "INSERT INTO result(check_id, previous_result_id, status, probe, status_code, response_time, changed, confirmation, created, modified, version) VALUES(:check_id, :previous_result_id, :status::status, :probe, :status_code, :response_time, :changed, :confirmation, :created, :modified, :version)";
+
+        SqlParameterSource[] parameters =
+                new SqlParameterSource[resultDtos.size()];
+
+        for (int i = 0; i < resultDtos.size(); i++)
+        {
+            ResultDto resultDto = resultDtos.get(i);
+            parameters[i] = new MapSqlParameterSource()
+                    .addValue("check_id", resultDto.getCheckId())
+                    .addValue("previous_result_id", resultDto.getPreviousResultId() == 0 ? null : resultDto.getPreviousResultId())
+                    .addValue("status", resultDto.getStatus().toString())
+                    .addValue("probe", resultDto.getProbe())
+                    .addValue("status_code", resultDto.getStatusCode())
+                    .addValue("response_time", resultDto.getResponseTime())
+                    .addValue("changed", resultDto.isChanged())
+                    .addValue("confirmation", resultDto.isConfirmation())
+                    .addValue("created", Timestamp.from(resultDto.getCreated()))
+                    .addValue("modified", Timestamp.from(resultDto.getModified()))
+                    .addValue("version", resultDto.getVersion());
+        }
+
+        return this.namedParameterJdbcTemplate.batchUpdate(insertSql, parameters);
     }
 }

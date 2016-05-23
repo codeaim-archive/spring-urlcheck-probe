@@ -3,9 +3,7 @@ package com.codeaim.urlcheck.repository.jdbc;
 import com.codeaim.urlcheck.domain.CheckDto;
 import com.codeaim.urlcheck.domain.State;
 import com.codeaim.urlcheck.domain.Status;
-import com.codeaim.urlcheck.domain.UserDto;
 import com.codeaim.urlcheck.repository.CheckRepository;
-import com.codeaim.urlcheck.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,7 +15,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
@@ -167,7 +164,7 @@ public class CheckRepositoryJdbc implements CheckRepository
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", updatedCheckDto.getId())
                 .addValue("user_id", updatedCheckDto.getUserId())
-                .addValue("latest_result_id", checkDto.getLatestResultId() == 0 ? null : checkDto.getLatestResultId())
+                .addValue("latest_result_id", updatedCheckDto.getLatestResultId() == 0 ? null : updatedCheckDto.getLatestResultId())
                 .addValue("name", updatedCheckDto.getName())
                 .addValue("url", updatedCheckDto.getUrl())
                 .addValue("probe", updatedCheckDto.getProbe())
@@ -241,5 +238,45 @@ public class CheckRepositoryJdbc implements CheckRepository
         this.namedParameterJdbcTemplate.update(markChecksElectedSql, parameters);
 
         return electedChecks;
+    }
+
+    @Override
+    public int[] batchUpdate(Collection<CheckDto> checkDtos)
+    {
+        String updateSql = "UPDATE \"check\" SET user_id = :user_id, latest_result_id = :latest_result_id, name = :name, url = :url, probe = :probe, status = :status::status, state = :state::state, created = :created, modified = :modified, refresh = :refresh, locked = :locked, interval = :interval, confirming = :confirming, version = :version WHERE id = :id";
+
+        List<CheckDto> updatedCheckDtos = checkDtos
+                .stream()
+                .map(checkDto -> CheckDto.buildFrom(checkDto)
+                        .modified(Instant.now())
+                        .version(checkDto.getVersion() + 1)
+                        .build())
+                .collect(Collectors.toList());
+
+        SqlParameterSource[] parameters =
+                new SqlParameterSource[updatedCheckDtos.size()];
+
+        for (int i = 0; i < updatedCheckDtos.size(); i++)
+        {
+            CheckDto updatedCheckDto = updatedCheckDtos.get(i);
+            parameters[i] = new MapSqlParameterSource()
+                    .addValue("id", updatedCheckDto.getId())
+                    .addValue("user_id", updatedCheckDto.getUserId())
+                    .addValue("latest_result_id", updatedCheckDto.getLatestResultId() == 0 ? null : updatedCheckDto.getLatestResultId())
+                    .addValue("name", updatedCheckDto.getName())
+                    .addValue("url", updatedCheckDto.getUrl())
+                    .addValue("probe", updatedCheckDto.getProbe())
+                    .addValue("status", updatedCheckDto.getStatus().toString())
+                    .addValue("state", updatedCheckDto.getState().toString())
+                    .addValue("created", Timestamp.from(updatedCheckDto.getCreated()))
+                    .addValue("modified", Timestamp.from(updatedCheckDto.getModified()))
+                    .addValue("refresh", Timestamp.from(updatedCheckDto.getRefresh()))
+                    .addValue("locked", Timestamp.from(updatedCheckDto.getLocked()))
+                    .addValue("interval", updatedCheckDto.getInterval())
+                    .addValue("confirming", updatedCheckDto.isConfirming())
+                    .addValue("version", updatedCheckDto.getVersion());
+        }
+
+        return this.namedParameterJdbcTemplate.batchUpdate(updateSql, parameters);
     }
 }

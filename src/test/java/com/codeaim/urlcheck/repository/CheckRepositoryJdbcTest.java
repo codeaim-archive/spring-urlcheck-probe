@@ -451,4 +451,67 @@ public class CheckRepositoryJdbcTest
                         State.ELECTED,
                         check.getState()));
     }
+
+    @Test
+    public void batchUpdate()
+    {
+        UserDto userDto = UserDto.builder()
+                .name("name")
+                .email("email@example.com")
+                .resetToken("resetToken")
+                .accessToken("accessToken")
+                .password("password")
+                .emailVerified(true)
+                .build();
+
+        UserDto savedUserDto = userRepository.save(userDto);
+
+        CheckDto firstCheckDto = CheckDto.builder()
+                .userId(savedUserDto.getId())
+                .name("name")
+                .url("http://www.example.com")
+                .probe("probe")
+                .status(Status.UNKNOWN)
+                .state(State.WAITING)
+                .interval(1)
+                .confirming(true)
+                .version(1)
+                .build();
+
+        CheckDto secondCheckDto = CheckDto.builder()
+                .userId(savedUserDto.getId())
+                .name("name2")
+                .url("http://www.example2.com")
+                .probe("probe")
+                .status(Status.UNKNOWN)
+                .state(State.WAITING)
+                .interval(1)
+                .confirming(true)
+                .version(1)
+                .build();
+
+        CheckDto savedFirstCheckDto = checkRepository.save(firstCheckDto);
+        CheckDto savedSecondCheckDto = checkRepository.save(secondCheckDto);
+
+        CheckDto firstUpdatedCheckDto = CheckDto.buildFrom(savedFirstCheckDto)
+                .name("updated")
+                .build();
+
+        CheckDto secondUpdatedCheckDto = CheckDto.buildFrom(savedSecondCheckDto)
+                .name("updated2")
+                .build();
+
+        int updatedCount = Arrays.stream(
+                checkRepository.batchUpdate(
+                        Arrays.asList(
+                                firstUpdatedCheckDto,
+                                secondUpdatedCheckDto)))
+                .sum();
+
+        userRepository.delete(savedUserDto);
+        checkRepository.delete(savedFirstCheckDto);
+        checkRepository.delete(savedSecondCheckDto);
+
+        Assert.assertEquals(2, updatedCount);
+    }
 }

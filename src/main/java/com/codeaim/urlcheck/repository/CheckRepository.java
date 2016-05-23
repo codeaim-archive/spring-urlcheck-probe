@@ -9,4 +9,5 @@ public interface CheckRepository extends CrudRepository<CheckDto, Long>
 {
     Collection<CheckDto> findElectableChecks(String probe, boolean isClustered, Instant instant);
     Collection<CheckDto> markChecksElected(Collection<CheckDto> checkDtos);
+    int[] batchUpdate (Collection<CheckDto> checkDtos);
 }
