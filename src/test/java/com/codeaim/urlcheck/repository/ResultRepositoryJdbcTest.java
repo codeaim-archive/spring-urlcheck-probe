@@ -1,49 +1,43 @@
 package com.codeaim.urlcheck.repository;
 
-import com.codeaim.urlcheck.Application;
-import com.codeaim.urlcheck.domain.*;
-import com.codeaim.urlcheck.repository.jdbc.CheckRepositoryJdbc;
-import com.codeaim.urlcheck.repository.jdbc.ResultRepositoryJdbc;
-import com.codeaim.urlcheck.repository.jdbc.UserRepositoryJdbc;
-import com.opentable.db.postgres.embedded.FlywayPreparer;
-import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
-import com.opentable.db.postgres.junit.PreparedDbRule;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.codeaim.urlcheck.Application;
+import com.codeaim.urlcheck.domain.CheckDto;
+import com.codeaim.urlcheck.domain.ResultDto;
+import com.codeaim.urlcheck.domain.State;
+import com.codeaim.urlcheck.domain.Status;
+import com.codeaim.urlcheck.domain.UserDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
 @SpringBootTest
 public class ResultRepositoryJdbcTest
 {
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private CheckRepository checkRepository;
+    @Autowired
     private ResultRepository resultRepository;
-
-    @Rule
-    public PreparedDbRule db = EmbeddedPostgresRules.preparedDatabase(FlywayPreparer.forClasspathLocation("db/migration"));
 
     @Before
     public void setup()
     {
-        userRepository = new UserRepositoryJdbc(new JdbcTemplate(db.getTestDatabase()), new NamedParameterJdbcTemplate(db.getTestDatabase()));
         userRepository.deleteAll();
-        checkRepository = new CheckRepositoryJdbc(new JdbcTemplate(db.getTestDatabase()), new NamedParameterJdbcTemplate(db.getTestDatabase()));
         checkRepository.deleteAll();
-        resultRepository = new ResultRepositoryJdbc(new JdbcTemplate(db.getTestDatabase()), new NamedParameterJdbcTemplate(db.getTestDatabase()));
         resultRepository.deleteAll();
     }
 
