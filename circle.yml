@@ -8,4 +8,4 @@ dependencies:
 
 test:
   override:
-    - mvn test -B -Dspring.datasource.url=jdbc:postgres://ubuntu:@127.0.0.1:5432/circle_test -Dspring.datasource.driverClassName=org.postgresql.Driver
+    - mvn test -B -Dspring.datasource.url=jdbc:postgres://ubuntu:@127.0.0.1:5432/circle_test -Dspring.datasource.driverClassName=org.postgresql.Driver -Dflyway.baseline-on-migrate=true
