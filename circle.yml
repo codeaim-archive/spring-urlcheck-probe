@@ -9,6 +9,6 @@ dependencies:
 test:
   override:
     - mvn clean install -Dspring.datasource.url=jdbc:postgresql://127.0.0.1:5432/circle_test -Dspring.datasource.username=ubuntu -Dspring.datasource.password=password
-  post:
-    - cp -R target/surefire-reports/* $CIRCLE_ARTIFACTS
-    - cp -R target/site/jacoco/* $CIRCLE_ARTIFACTS
+  test:
+    post:
+      - bash <(curl -s https://codecov.io/bash)
