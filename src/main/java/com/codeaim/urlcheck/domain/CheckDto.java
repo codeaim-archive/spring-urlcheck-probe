@@ -147,7 +147,7 @@ public final class CheckDto
                 .status(checkDto.getStatus())
                 .state(checkDto.getState())
                 .created(checkDto.getCreated())
-                .modified(checkDto.getModified())
+                .modified(Instant.now())
                 .refresh(checkDto.getRefresh())
                 .locked(checkDto.getLocked())
                 .interval(checkDto.getInterval())
@@ -275,7 +275,7 @@ public final class CheckDto
                     this.status == null ? Status.UNKNOWN : this.status,
                     this.state == null ? State.WAITING : this.state,
                     this.created == null ? Instant.now() : this.created,
-                    Instant.now(),
+                    this.modified == null ? Instant.now() : this.modified,
                     this.refresh == null ? Instant.now() : this.refresh,
                     this.locked == null ? Instant.now() : this.locked,
                     this.interval,

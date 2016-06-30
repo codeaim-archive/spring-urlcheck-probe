@@ -1,7 +1,5 @@
 package com.codeaim.urlcheck;
 
-import com.codeaim.urlcheck.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
