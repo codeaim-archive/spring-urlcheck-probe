@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.codeaim.urlcheck.Application;
@@ -20,6 +21,7 @@ import com.codeaim.urlcheck.domain.UserRoleDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
+@TestPropertySource(locations="classpath:test.properties")
 @SpringBootTest
 public class UserRoleRepositoryJdbcTest
 {
@@ -29,13 +31,6 @@ public class UserRoleRepositoryJdbcTest
     private RoleRepository roleRepository;
     @Autowired
     private UserRoleRepository userRoleRepository;
-
-    @Before
-    public void setup() {
-        userRepository.deleteAll();
-        roleRepository.deleteAll();
-        userRoleRepository.deleteAll();
-    }
 
     @Test
     public void save()
@@ -77,8 +72,10 @@ public class UserRoleRepositoryJdbcTest
         userRepository.delete(savedUserDto);
         roleRepository.delete(savedFirstRoleDto);
         roleRepository.delete(savedSecondRoleDto);
-        userRoleRepository.delete(firstUserRoleDto);
-        userRoleRepository.delete(secondUserRoleDto);
+
+        savedUserRoleDtos
+                .stream()
+                .forEach(savedUserRoleDto -> userRoleRepository.delete(savedUserRoleDto));
 
         Assert.assertEquals(2, savedUserRoleDtos.size());
     }
@@ -148,7 +145,7 @@ public class UserRoleRepositoryJdbcTest
 
         userRepository.delete(savedUserDto);
         roleRepository.delete(savedRoleDto);
-        userRoleRepository.delete(userRoleDto);
+        userRoleRepository.delete(savedUserRoleDto);
 
         Assert.assertTrue(exists);
     }

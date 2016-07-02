@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.codeaim.urlcheck.Application;
@@ -23,6 +24,7 @@ import com.codeaim.urlcheck.domain.UserDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
+@TestPropertySource(locations="classpath:test.properties")
 @SpringBootTest
 public class ResultRepositoryJdbcTest
 {
@@ -32,14 +34,6 @@ public class ResultRepositoryJdbcTest
     private CheckRepository checkRepository;
     @Autowired
     private ResultRepository resultRepository;
-
-    @Before
-    public void setup()
-    {
-        userRepository.deleteAll();
-        checkRepository.deleteAll();
-        resultRepository.deleteAll();
-    }
 
     @Test
     public void save()
@@ -98,9 +92,11 @@ public class ResultRepositoryJdbcTest
         Collection<ResultDto> savedResultDtos = resultRepository.save(Arrays.asList(firstResultDto, secondResultDto));
 
         userRepository.delete(savedUserDto);
-        checkRepository.delete(checkDto);
-        resultRepository.delete(firstResultDto);
-        resultRepository.delete(secondResultDto);
+        checkRepository.delete(savedCheckDto);
+
+        savedResultDtos
+                .stream()
+                .forEach(savedResultDto -> resultRepository.delete(savedResultDto));
 
         Assert.assertEquals(2, savedResultDtos.size());
     }

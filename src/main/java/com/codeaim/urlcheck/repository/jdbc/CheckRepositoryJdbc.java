@@ -16,10 +16,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Repository
 public class CheckRepositoryJdbc implements CheckRepository
@@ -197,7 +196,7 @@ public class CheckRepositoryJdbc implements CheckRepository
                 .created(rs.getTimestamp("created").toInstant())
                 .modified(rs.getTimestamp("modified").toInstant())
                 .refresh(rs.getTimestamp("refresh").toInstant())
-                .locked(rs.getTimestamp("locked").toInstant())
+                .locked(rs.getTimestamp("locked") != null ? rs.getTimestamp("locked").toInstant() : null)
                 .interval(rs.getInt("interval"))
                 .confirming(rs.getBoolean("confirming"))
                 .version(rs.getLong("version"))
@@ -221,6 +220,9 @@ public class CheckRepositoryJdbc implements CheckRepository
     @Override
     public Collection<CheckDto> markChecksElected(Collection<CheckDto> checkDtos)
     {
+        if(checkDtos.isEmpty())
+            return Collections.emptyList();
+
         String markChecksElectedSql = "UPDATE \"check\" SET state = 'ELECTED'::state WHERE id in (:ids)";
 
         List<CheckDto> electedChecks = checkDtos.stream()
@@ -241,8 +243,11 @@ public class CheckRepositoryJdbc implements CheckRepository
     }
 
     @Override
-    public int[] batchUpdate(Collection<CheckDto> checkDtos)
+    public int batchUpdate(Collection<CheckDto> checkDtos)
     {
+        if(checkDtos.isEmpty())
+            return 0;
+
         String updateSql = "UPDATE \"check\" SET user_id = :user_id, latest_result_id = :latest_result_id, name = :name, url = :url, probe = :probe, status = :status::status, state = :state::state, created = :created, modified = :modified, refresh = :refresh, locked = :locked, interval = :interval, confirming = :confirming, version = :version WHERE id = :id";
 
         List<CheckDto> updatedCheckDtos = checkDtos
@@ -277,6 +282,6 @@ public class CheckRepositoryJdbc implements CheckRepository
                     .addValue("version", updatedCheckDto.getVersion());
         }
 
-        return this.namedParameterJdbcTemplate.batchUpdate(updateSql, parameters);
+        return IntStream.of(this.namedParameterJdbcTemplate.batchUpdate(updateSql, parameters)).sum();
     }
 }

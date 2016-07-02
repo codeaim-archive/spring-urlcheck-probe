@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.codeaim.urlcheck.Application;
@@ -18,17 +19,12 @@ import com.codeaim.urlcheck.domain.RoleDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
+@TestPropertySource(locations="classpath:test.properties")
 @SpringBootTest
 public class RoleRepositoryJdbcTest
 {
     @Autowired
     private RoleRepository roleRepository;
-
-    @Before
-    public void setup()
-    {
-        roleRepository.deleteAll();
-    }
 
     @Test
     public void save()
@@ -43,8 +39,9 @@ public class RoleRepositoryJdbcTest
 
         Collection<RoleDto> savedRoleDtos = roleRepository.save(Arrays.asList(firstRoleDto, secondRoleDto));
 
-        roleRepository.delete(firstRoleDto);
-        roleRepository.delete(secondRoleDto);
+        savedRoleDtos
+                .stream()
+                .forEach(savedRoleDto -> roleRepository.delete(savedRoleDto));
 
         Assert.assertEquals(2, savedRoleDtos.size());
     }
@@ -60,7 +57,7 @@ public class RoleRepositoryJdbcTest
 
         Optional<RoleDto> foundRoleDto = roleRepository.findOne(savedRoleDto.getId());
 
-        roleRepository.delete(roleDto);
+        roleRepository.delete(savedRoleDto);
 
         Assert.assertTrue(foundRoleDto.isPresent());
     }
@@ -76,7 +73,7 @@ public class RoleRepositoryJdbcTest
 
         boolean exists = roleRepository.exists(savedRoleDto.getId());
 
-        roleRepository.delete(roleDto);
+        roleRepository.delete(savedRoleDto);
 
         Assert.assertTrue(exists);
     }

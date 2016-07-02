@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.codeaim.urlcheck.Application;
@@ -18,17 +19,12 @@ import com.codeaim.urlcheck.domain.UserDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
+@TestPropertySource(locations="classpath:test.properties")
 @SpringBootTest
 public class UserRepositoryJdbcTest
 {
     @Autowired
     private UserRepository userRepository;
-
-    @Before
-    public void setup()
-    {
-        userRepository.deleteAll();
-    }
 
     @Test
     public void save()
@@ -53,8 +49,9 @@ public class UserRepositoryJdbcTest
 
         Collection<UserDto> savedUserDtos = userRepository.save(Arrays.asList(firstUserDto, secondUserDto));
 
-        userRepository.delete(firstUserDto);
-        userRepository.delete(secondUserDto);
+        savedUserDtos
+                .stream()
+                .forEach(savedUserDto -> userRepository.delete(savedUserDto));
 
         Assert.assertEquals(2, savedUserDtos.size());
     }
@@ -75,7 +72,7 @@ public class UserRepositoryJdbcTest
 
         Optional<UserDto> foundUserDto = userRepository.findOne(savedUserDto.getId());
 
-        userRepository.delete(userDto);
+        userRepository.delete(savedUserDto);
 
         Assert.assertTrue(foundUserDto.isPresent());
     }
@@ -96,7 +93,7 @@ public class UserRepositoryJdbcTest
 
         boolean exists = userRepository.exists(savedUserDto.getId());
 
-        userRepository.delete(userDto);
+        userRepository.delete(savedUserDto);
 
         Assert.assertTrue(exists);
     }

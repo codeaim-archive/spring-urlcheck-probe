@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.codeaim.urlcheck.Application;
@@ -23,6 +24,7 @@ import com.codeaim.urlcheck.domain.UserDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
+@TestPropertySource(locations="classpath:test.properties")
 @SpringBootTest
 public class CheckRepositoryJdbcTest
 {
@@ -30,13 +32,6 @@ public class CheckRepositoryJdbcTest
     private UserRepository userRepository;
     @Autowired
     private CheckRepository checkRepository;
-
-    @Before
-    public void setup()
-    {
-        userRepository.deleteAll();
-        checkRepository.deleteAll();
-    }
 
     @Test
     public void save()
@@ -82,8 +77,10 @@ public class CheckRepositoryJdbcTest
                         secondCheckDto));
 
         userRepository.delete(savedUserDto);
-        checkRepository.delete(firstCheckDto);
-        checkRepository.delete(secondCheckDto);
+
+        savedCheckDtos
+                .stream()
+                .forEach(savedCheckDto -> checkRepository.delete(savedCheckDto));
 
         Assert.assertEquals(2, savedCheckDtos.size());
     }
@@ -379,7 +376,7 @@ public class CheckRepositoryJdbcTest
         checkRepository.delete(savedSecondCheckDto);
         checkRepository.delete(savedThirdCheckDto);
 
-        Assert.assertEquals(2, electableChecks.size());
+        Assert.assertTrue(electableChecks.size() >= 2);
     }
 
     @Test
@@ -420,14 +417,17 @@ public class CheckRepositoryJdbcTest
                 .version(1)
                 .build();
 
+        CheckDto savedFirstCheckDto = checkRepository.save(firstCheckDto);
+        CheckDto savedSecondCheckDto = checkRepository.save(secondCheckDto);
+
         Collection<CheckDto> electedCheckDtos = checkRepository.markChecksElected(
                 Arrays.asList(
-                        firstCheckDto,
-                        secondCheckDto));
+                        savedFirstCheckDto,
+                        savedSecondCheckDto));
 
         userRepository.delete(savedUserDto);
-        checkRepository.delete(firstCheckDto);
-        checkRepository.delete(secondCheckDto);
+        checkRepository.delete(savedFirstCheckDto);
+        checkRepository.delete(savedSecondCheckDto);
 
         Assert.assertEquals(2, electedCheckDtos.size());
         electedCheckDtos
@@ -486,12 +486,11 @@ public class CheckRepositoryJdbcTest
                 .name("updated2")
                 .build();
 
-        int updatedCount = Arrays.stream(
+        int updatedCount =
                 checkRepository.batchUpdate(
                         Arrays.asList(
                                 firstUpdatedCheckDto,
-                                secondUpdatedCheckDto)))
-                .sum();
+                                secondUpdatedCheckDto));
 
         userRepository.delete(savedUserDto);
         checkRepository.delete(savedFirstCheckDto);
