@@ -1,11 +1,10 @@
 package com.codeaim.urlcheck.repository;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-
+import com.codeaim.urlcheck.Application;
+import com.codeaim.urlcheck.domain.RoleDto;
+import com.codeaim.urlcheck.domain.UserDto;
+import com.codeaim.urlcheck.domain.UserRoleDto;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.codeaim.urlcheck.Application;
-import com.codeaim.urlcheck.domain.RoleDto;
-import com.codeaim.urlcheck.domain.UserDto;
-import com.codeaim.urlcheck.domain.UserRoleDto;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)

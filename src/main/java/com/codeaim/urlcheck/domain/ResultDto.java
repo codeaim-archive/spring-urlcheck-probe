@@ -1,7 +1,6 @@
 package com.codeaim.urlcheck.domain;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.OptionalLong;
 
 public final class ResultDto

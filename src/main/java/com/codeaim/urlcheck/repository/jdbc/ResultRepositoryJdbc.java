@@ -1,6 +1,5 @@
 package com.codeaim.urlcheck.repository.jdbc;
 
-import com.codeaim.urlcheck.domain.CheckDto;
 import com.codeaim.urlcheck.domain.ResultDto;
 import com.codeaim.urlcheck.domain.Status;
 import com.codeaim.urlcheck.repository.ResultRepository;
