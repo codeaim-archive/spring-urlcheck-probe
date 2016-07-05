@@ -14,16 +14,6 @@ public final class RoleDto
         this.name = name;
     }
 
-    public long getId()
-    {
-        return id;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
     public static Builder builder()
     {
         return new Builder();
@@ -34,6 +24,16 @@ public final class RoleDto
         return builder()
                 .id(roleDto.getId())
                 .name(roleDto.getName());
+    }
+
+    public long getId()
+    {
+        return id;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public final static class Builder

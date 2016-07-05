@@ -40,6 +40,25 @@ public final class UserDto
         this.version = version;
     }
 
+    public static Builder builder()
+    {
+        return new Builder();
+    }
+
+    public static Builder buildFrom(UserDto userDto)
+    {
+        return builder()
+                .id(userDto.getId())
+                .name(userDto.getName())
+                .email(userDto.getEmail())
+                .resetToken(userDto.getResetToken())
+                .accessToken(userDto.getAccessToken())
+                .password(userDto.getPassword())
+                .emailVerified(userDto.isEmailVerified())
+                .created(userDto.getCreated())
+                .version(userDto.getVersion());
+    }
+
     public long getId()
     {
         return id;
@@ -88,25 +107,6 @@ public final class UserDto
     public long getVersion()
     {
         return version;
-    }
-
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    public static Builder buildFrom(UserDto userDto)
-    {
-        return builder()
-                .id(userDto.getId())
-                .name(userDto.getName())
-                .email(userDto.getEmail())
-                .resetToken(userDto.getResetToken())
-                .accessToken(userDto.getAccessToken())
-                .password(userDto.getPassword())
-                .emailVerified(userDto.isEmailVerified())
-                .created(userDto.getCreated())
-                .version(userDto.getVersion());
     }
 
     public final static class Builder

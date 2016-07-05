@@ -8,12 +8,13 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
 public class RoleDtoTest
 {
     @Test
-    public void build() {
+    public void build()
+    {
         RoleDto roleDto = RoleDto.builder()
                 .id(1)
                 .name("name")

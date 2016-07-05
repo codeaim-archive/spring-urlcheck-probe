@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
 public class UserRepositoryJdbcTest
 {

@@ -57,6 +57,31 @@ public final class CheckDto
         this.version = version;
     }
 
+    public static Builder builder()
+    {
+        return new Builder();
+    }
+
+    public static Builder buildFrom(CheckDto checkDto)
+    {
+        return builder()
+                .id(checkDto.getId())
+                .userId(checkDto.getUserId())
+                .latestResultId(checkDto.getLatestResultId())
+                .name(checkDto.getName())
+                .url(checkDto.getUrl())
+                .probe(checkDto.getProbe())
+                .status(checkDto.getStatus())
+                .state(checkDto.getState())
+                .created(checkDto.getCreated())
+                .modified(Instant.now())
+                .refresh(checkDto.getRefresh())
+                .locked(checkDto.getLocked())
+                .interval(checkDto.getInterval())
+                .confirming(checkDto.isConfirming())
+                .version(checkDto.getVersion());
+    }
+
     public long getId()
     {
         return id;
@@ -130,31 +155,6 @@ public final class CheckDto
     public long getVersion()
     {
         return version;
-    }
-
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    public static Builder buildFrom(CheckDto checkDto)
-    {
-        return builder()
-                .id(checkDto.getId())
-                .userId(checkDto.getUserId())
-                .latestResultId(checkDto.getLatestResultId())
-                .name(checkDto.getName())
-                .url(checkDto.getUrl())
-                .probe(checkDto.getProbe())
-                .status(checkDto.getStatus())
-                .state(checkDto.getState())
-                .created(checkDto.getCreated())
-                .modified(Instant.now())
-                .refresh(checkDto.getRefresh())
-                .locked(checkDto.getLocked())
-                .interval(checkDto.getInterval())
-                .confirming(checkDto.isConfirming())
-                .version(checkDto.getVersion());
     }
 
     public final static class Builder

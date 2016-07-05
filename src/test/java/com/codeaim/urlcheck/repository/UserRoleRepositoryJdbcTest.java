@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
 public class UserRoleRepositoryJdbcTest
 {
@@ -79,7 +79,8 @@ public class UserRoleRepositoryJdbcTest
     }
 
     @Test
-    public void findOne() {
+    public void findOne()
+    {
         UserDto userDto = UserDto.builder()
                 .name("name")
                 .email("email@example.com")
@@ -114,7 +115,8 @@ public class UserRoleRepositoryJdbcTest
     }
 
     @Test
-    public void exists() {
+    public void exists()
+    {
         UserDto userDto = UserDto.builder()
                 .name("name")
                 .email("email@example.com")

@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.OptionalLong;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
 public class ResultDtoTest
 {

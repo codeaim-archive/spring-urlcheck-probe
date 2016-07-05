@@ -59,6 +59,6 @@ CREATE TABLE result (
 );
 
 ALTER TABLE "check"
-  ADD FOREIGN KEY (latest_result_id) REFERENCES result (id);
+ADD FOREIGN KEY (latest_result_id) REFERENCES result (id);
 ALTER TABLE result
-  ADD FOREIGN KEY (previous_result_id) REFERENCES result (id);
+ADD FOREIGN KEY (previous_result_id) REFERENCES result (id);

@@ -220,7 +220,7 @@ public class CheckRepositoryJdbc implements CheckRepository
     @Override
     public Collection<CheckDto> markChecksElected(Collection<CheckDto> checkDtos)
     {
-        if(checkDtos.isEmpty())
+        if (checkDtos.isEmpty())
             return Collections.emptyList();
 
         String markChecksElectedSql = "UPDATE \"check\" SET state = 'ELECTED'::state WHERE id in (:ids)";
@@ -245,7 +245,7 @@ public class CheckRepositoryJdbc implements CheckRepository
     @Override
     public int batchUpdate(Collection<CheckDto> checkDtos)
     {
-        if(checkDtos.isEmpty())
+        if (checkDtos.isEmpty())
             return 0;
 
         String updateSql = "UPDATE \"check\" SET user_id = :user_id, latest_result_id = :latest_result_id, name = :name, url = :url, probe = :probe, status = :status::status, state = :state::state, created = :created, modified = :modified, refresh = :refresh, locked = :locked, interval = :interval, confirming = :confirming, version = :version WHERE id = :id";

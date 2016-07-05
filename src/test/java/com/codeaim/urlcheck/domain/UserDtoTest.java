@@ -10,12 +10,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.Instant;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
 public class UserDtoTest
 {
     @Test
-    public void build() {
+    public void build()
+    {
         UserDto userDto = UserDto.builder()
                 .id(1)
                 .name("name")
@@ -41,7 +42,8 @@ public class UserDtoTest
     }
 
     @Test
-    public void buildFrom() {
+    public void buildFrom()
+    {
         UserDto userDto = UserDto.buildFrom(UserDto.builder()
                 .id(1)
                 .name("name")
@@ -64,7 +66,7 @@ public class UserDtoTest
         Assert.assertEquals("password", userDto.getPassword());
         Assert.assertEquals(true, userDto.isEmailVerified());
         Assert.assertNotNull(userDto.getCreated());
-        Assert.assertNotNull( userDto.getModified());
+        Assert.assertNotNull(userDto.getModified());
         Assert.assertEquals(1, userDto.getVersion());
     }
 }

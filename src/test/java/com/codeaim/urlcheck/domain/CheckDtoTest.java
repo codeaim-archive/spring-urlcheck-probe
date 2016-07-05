@@ -12,12 +12,13 @@ import java.util.Optional;
 import java.util.OptionalLong;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
 public class CheckDtoTest
 {
     @Test
-    public void build() {
+    public void build()
+    {
         CheckDto checkDto = CheckDto.builder()
                 .id(1)
                 .userId(1)
@@ -50,7 +51,8 @@ public class CheckDtoTest
     }
 
     @Test
-    public void buildFrom() {
+    public void buildFrom()
+    {
         CheckDto checkDto = CheckDto.buildFrom(CheckDto.builder()
                 .id(1)
                 .userId(1)

@@ -47,6 +47,28 @@ public final class ResultDto
         this.version = version;
     }
 
+    public static Builder builder()
+    {
+        return new Builder();
+    }
+
+    public static Builder buildFrom(ResultDto resultDto)
+    {
+        return builder()
+                .id(resultDto.getId())
+                .checkId(resultDto.getCheckId())
+                .previousResultId(resultDto.getPreviousResultId())
+                .status(resultDto.getStatus())
+                .probe(resultDto.getProbe())
+                .statusCode(resultDto.getStatusCode())
+                .responseTime(resultDto.getResponseTime())
+                .changed(resultDto.isChanged())
+                .confirmation(resultDto.isConfirmation())
+                .created(resultDto.getCreated())
+                .modified(resultDto.getModified())
+                .version(resultDto.getVersion());
+    }
+
     public long getId()
     {
         return id;
@@ -105,28 +127,6 @@ public final class ResultDto
     public long getVersion()
     {
         return version;
-    }
-
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    public static Builder buildFrom(ResultDto resultDto)
-    {
-        return builder()
-                .id(resultDto.getId())
-                .checkId(resultDto.getCheckId())
-                .previousResultId(resultDto.getPreviousResultId())
-                .status(resultDto.getStatus())
-                .probe(resultDto.getProbe())
-                .statusCode(resultDto.getStatusCode())
-                .responseTime(resultDto.getResponseTime())
-                .changed(resultDto.isChanged())
-                .confirmation(resultDto.isConfirmation())
-                .created(resultDto.getCreated())
-                .modified(resultDto.getModified())
-                .version(resultDto.getVersion());
     }
 
     public final static class Builder

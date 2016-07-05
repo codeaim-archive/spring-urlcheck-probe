@@ -17,6 +17,19 @@ public final class UserRoleDto
         this.roleId = roleId;
     }
 
+    public static Builder builder()
+    {
+        return new Builder();
+    }
+
+    public static Builder buildFrom(UserRoleDto userRoleDto)
+    {
+        return builder()
+                .id(userRoleDto.getId())
+                .userId(userRoleDto.getUserId())
+                .roleId(userRoleDto.getRoleId());
+    }
+
     public long getId()
     {
         return id;
@@ -30,19 +43,6 @@ public final class UserRoleDto
     public long getRoleId()
     {
         return roleId;
-    }
-
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    public static Builder buildFrom(UserRoleDto userRoleDto)
-    {
-        return builder()
-                .id(userRoleDto.getId())
-                .userId(userRoleDto.getUserId())
-                .roleId(userRoleDto.getRoleId());
     }
 
     public final static class Builder
