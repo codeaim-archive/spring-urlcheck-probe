@@ -1,12 +1,14 @@
 package com.codeaim.urlcheck.domain;
 
 import java.time.Instant;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 public final class ResultDto
 {
     private long id;
     private long checkId;
-    private long previousResultId;
+    private OptionalLong previousResultId;
     private String probe;
     private Status status;
     private int statusCode;
@@ -20,7 +22,7 @@ public final class ResultDto
     private ResultDto(
             final long id,
             final long checkId,
-            final long previousResultId,
+            final OptionalLong previousResultId,
             final String probe,
             final Status status,
             final int statusCode,
@@ -56,7 +58,7 @@ public final class ResultDto
         return checkId;
     }
 
-    public long getPreviousResultId()
+    public OptionalLong getPreviousResultId()
     {
         return previousResultId;
     }
@@ -132,7 +134,7 @@ public final class ResultDto
     {
         private long id;
         private long checkId;
-        private long previousResultId;
+        private OptionalLong previousResultId = OptionalLong.empty();
         private String probe;
         private Status status;
         private int statusCode;
@@ -155,7 +157,7 @@ public final class ResultDto
             return this;
         }
 
-        public Builder previousResultId(final long previousResultId)
+        public Builder previousResultId(final OptionalLong previousResultId)
         {
             this.previousResultId = previousResultId;
             return this;

@@ -1,21 +1,23 @@
 package com.codeaim.urlcheck.domain;
 
 import java.time.Instant;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 public final class CheckDto
 {
     private long id;
     private long userId;
-    private long latestResultId;
+    private OptionalLong latestResultId;
     private String name;
     private String url;
-    private String probe;
+    private Optional<String> probe;
     private Status status;
     private State state;
     private Instant created;
     private Instant modified;
     private Instant refresh;
-    private Instant locked;
+    private Optional<Instant> locked;
     private int interval;
     private boolean confirming;
     private long version;
@@ -23,16 +25,16 @@ public final class CheckDto
     private CheckDto(
             final long id,
             final long userId,
-            final long latestResultId,
+            final OptionalLong latestResultId,
             final String name,
             final String url,
-            final String probe,
+            final Optional<String> probe,
             final Status status,
             final State state,
             final Instant created,
             final Instant modified,
             final Instant refresh,
-            final Instant locked,
+            final Optional<Instant> locked,
             final int interval,
             final boolean confirming,
             final long version
@@ -65,7 +67,7 @@ public final class CheckDto
         return userId;
     }
 
-    public long getLatestResultId()
+    public OptionalLong getLatestResultId()
     {
         return latestResultId;
     }
@@ -80,7 +82,7 @@ public final class CheckDto
         return url;
     }
 
-    public String getProbe()
+    public Optional<String> getProbe()
     {
         return probe;
     }
@@ -110,7 +112,7 @@ public final class CheckDto
         return refresh;
     }
 
-    public Instant getLocked()
+    public Optional<Instant> getLocked()
     {
         return locked;
     }
@@ -159,16 +161,16 @@ public final class CheckDto
     {
         private long id;
         private long userId;
-        private long latestResultId;
+        private OptionalLong latestResultId = OptionalLong.empty();
         private String name;
         private String url;
-        private String probe;
+        private Optional<String> probe = Optional.empty();
         private Status status;
         private State state;
         private Instant created;
         private Instant modified;
         private Instant refresh;
-        private Instant locked;
+        private Optional<Instant> locked = Optional.empty();
         private int interval;
         private boolean confirming;
         private long version;
@@ -185,7 +187,7 @@ public final class CheckDto
             return this;
         }
 
-        public Builder latestResultId(final long latestResultId)
+        public Builder latestResultId(final OptionalLong latestResultId)
         {
             this.latestResultId = latestResultId;
             return this;
@@ -203,7 +205,7 @@ public final class CheckDto
             return this;
         }
 
-        public Builder probe(final String probe)
+        public Builder probe(final Optional<String> probe)
         {
             this.probe = probe;
             return this;
@@ -239,7 +241,7 @@ public final class CheckDto
             return this;
         }
 
-        public Builder locked(final Instant locked)
+        public Builder locked(final Optional<Instant> locked)
         {
             this.locked = locked;
             return this;
@@ -277,7 +279,7 @@ public final class CheckDto
                     this.created == null ? Instant.now() : this.created,
                     this.modified == null ? Instant.now() : this.modified,
                     this.refresh == null ? Instant.now() : this.refresh,
-                    this.locked == null ? Instant.now() : this.locked,
+                    this.locked == null ? Optional.of(Instant.now()) : this.locked,
                     this.interval,
                     this.confirming,
                     this.version <= 0 ? 1 : this.version

@@ -8,6 +8,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations="classpath:test.properties")
@@ -20,7 +23,7 @@ public class ResultDtoTest
         ResultDto resultDto = ResultDto.builder()
                 .id(1)
                 .checkId(1)
-                .previousResultId(1)
+                .previousResultId(OptionalLong.of(1))
                 .status(Status.UNKNOWN)
                 .probe("probe")
                 .statusCode(200)
@@ -34,7 +37,7 @@ public class ResultDtoTest
 
         Assert.assertEquals(1, resultDto.getId());
         Assert.assertEquals(1, resultDto.getCheckId());
-        Assert.assertEquals(1, resultDto.getPreviousResultId());
+        Assert.assertEquals(1, resultDto.getPreviousResultId().getAsLong());
         Assert.assertEquals(Status.UNKNOWN, resultDto.getStatus());
         Assert.assertEquals("probe", resultDto.getProbe());
         Assert.assertEquals(200, resultDto.getStatusCode());
@@ -52,7 +55,7 @@ public class ResultDtoTest
         ResultDto resultDto = ResultDto.buildFrom(ResultDto.builder()
                 .id(1)
                 .checkId(1)
-                .previousResultId(1)
+                .previousResultId(OptionalLong.of(1))
                 .status(Status.UNKNOWN)
                 .probe("probe")
                 .statusCode(200)
@@ -67,7 +70,7 @@ public class ResultDtoTest
 
         Assert.assertEquals(1, resultDto.getId());
         Assert.assertEquals(1, resultDto.getCheckId());
-        Assert.assertEquals(1, resultDto.getPreviousResultId());
+        Assert.assertEquals(1, resultDto.getPreviousResultId().getAsLong());
         Assert.assertEquals(Status.UNKNOWN, resultDto.getStatus());
         Assert.assertEquals("probe", resultDto.getProbe());
         Assert.assertEquals(200, resultDto.getStatusCode());

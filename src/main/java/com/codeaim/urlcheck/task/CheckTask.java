@@ -18,9 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -52,14 +50,12 @@ public class CheckTask
 
     public void run()
     {
-        System.out.println("Running check task");
         updateChecks(
                 checkRepository,
                 markChecksElected(
                         checkRepository,
                         findElectableChecks(
                                 checkRepository,
-                                probe,
                                 isClustered))
                         .stream()
                         .map(electedCheck -> {
@@ -81,7 +77,6 @@ public class CheckTask
 
     Collection<CheckDto> findElectableChecks(
             CheckRepository checkRepository,
-            String probe,
             boolean isClustered
     )
     {
@@ -114,7 +109,7 @@ public class CheckTask
             return restTemplate
                     .exchange(
                             checkDto.getUrl(),
-                            HttpMethod.HEAD,
+                            HttpMethod.GET,
                             new HttpEntity<>("", headers),
                             String.class)
                     .getStatusCode();
@@ -141,11 +136,11 @@ public class CheckTask
                 .builder()
                 .checkId(checkDto.getId())
                 .previousResultId(checkDto.getLatestResultId())
-                .probe(checkDto.getProbe())
+                .probe(probe)
                 .responseTime((int) (System.currentTimeMillis() - startResponseTime))
                 .statusCode(checkUrlStatus.value())
-                .status((checkUrlStatus.value() >= 200 && checkUrlStatus.value() <= 399) ? Status.UP : Status.DOWN)
-                .changed(!Objects.equals((checkUrlStatus.value() >= 200 && checkUrlStatus.value() <= 399) ? Status.UP : Status.DOWN, checkDto.getStatus()))
+                .status((checkUrlStatus.is2xxSuccessful()) ? Status.UP : Status.DOWN)
+                .changed(!Objects.equals((checkUrlStatus.is2xxSuccessful()) ? Status.UP : Status.DOWN, checkDto.getStatus()))
                 .confirmation(checkDto.isConfirming())
                 .build());
     }
@@ -185,12 +180,13 @@ public class CheckTask
     {
         return CheckDto
                 .buildFrom(checkDto)
-                .latestResultId(resultDto.getId())
+                .latestResultId(OptionalLong.of(resultDto.getId()))
                 .refresh(Instant.now().plus(
                         checkDto.getInterval(),
                         ChronoUnit.MINUTES))
                 .state(State.WAITING)
                 .locked(null)
+                .probe(Optional.of(probe))
                 .build();
     }
 
@@ -201,10 +197,11 @@ public class CheckTask
     {
         return CheckDto
                 .buildFrom(checkDto)
-                .latestResultId(resultDto.getId())
+                .latestResultId(OptionalLong.of(resultDto.getId()))
                 .confirming(true)
                 .state(State.WAITING)
                 .locked(null)
+                .probe(Optional.of(probe))
                 .build();
     }
 
@@ -215,10 +212,11 @@ public class CheckTask
     {
         return CheckDto
                 .buildFrom(checkDto)
-                .latestResultId(resultDto.getId())
+                .latestResultId(OptionalLong.of(resultDto.getId()))
                 .confirming(false)
                 .state(State.WAITING)
                 .locked(null)
+                .probe(Optional.of(probe))
                 .build();
     }
 
@@ -229,7 +227,7 @@ public class CheckTask
     {
         return CheckDto
                 .buildFrom(checkDto)
-                .latestResultId(resultDto.getId())
+                .latestResultId(OptionalLong.of(resultDto.getId()))
                 .status(resultDto.getStatus())
                 .confirming(false)
                 .refresh(Instant.now().plus(
@@ -237,6 +235,7 @@ public class CheckTask
                         ChronoUnit.MINUTES))
                 .state(State.WAITING)
                 .locked(null)
+                .probe(Optional.of(probe))
                 .build();
     }
 

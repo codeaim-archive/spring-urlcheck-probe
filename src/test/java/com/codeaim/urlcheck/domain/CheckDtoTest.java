@@ -8,6 +8,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations="classpath:test.properties")
@@ -19,10 +21,10 @@ public class CheckDtoTest
         CheckDto checkDto = CheckDto.builder()
                 .id(1)
                 .userId(1)
-                .latestResultId(1)
+                .latestResultId(OptionalLong.of(1))
                 .name("name")
                 .url("http://www.example.com")
-                .probe("probe")
+                .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
                 .interval(1)
@@ -32,10 +34,10 @@ public class CheckDtoTest
 
         Assert.assertEquals(1, checkDto.getId());
         Assert.assertEquals(1, checkDto.getUserId());
-        Assert.assertEquals(1, checkDto.getLatestResultId());
+        Assert.assertEquals(1, checkDto.getLatestResultId().getAsLong());
         Assert.assertEquals("name", checkDto.getName());
         Assert.assertEquals("http://www.example.com", checkDto.getUrl());
-        Assert.assertEquals("probe", checkDto.getProbe());
+        Assert.assertEquals("probe", checkDto.getProbe().get());
         Assert.assertEquals(Status.UNKNOWN, checkDto.getStatus());
         Assert.assertEquals(State.WAITING, checkDto.getState());
         Assert.assertNotNull(checkDto.getCreated());
@@ -52,16 +54,16 @@ public class CheckDtoTest
         CheckDto checkDto = CheckDto.buildFrom(CheckDto.builder()
                 .id(1)
                 .userId(1)
-                .latestResultId(1)
+                .latestResultId(OptionalLong.of(1))
                 .name("name")
                 .url("http://www.example.com")
-                .probe("probe")
+                .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
                 .created(Instant.now())
                 .modified(Instant.now())
                 .refresh(Instant.now())
-                .locked(Instant.now())
+                .locked(Optional.of(Instant.now()))
                 .interval(1)
                 .confirming(true)
                 .version(1)
@@ -70,16 +72,16 @@ public class CheckDtoTest
 
         Assert.assertEquals(1, checkDto.getId());
         Assert.assertEquals(1, checkDto.getUserId());
-        Assert.assertEquals(1, checkDto.getLatestResultId());
+        Assert.assertEquals(1, checkDto.getLatestResultId().getAsLong());
         Assert.assertEquals("name", checkDto.getName());
         Assert.assertEquals("http://www.example.com", checkDto.getUrl());
-        Assert.assertEquals("probe", checkDto.getProbe());
+        Assert.assertEquals("probe", checkDto.getProbe().get());
         Assert.assertEquals(Status.UNKNOWN, checkDto.getStatus());
         Assert.assertEquals(State.WAITING, checkDto.getState());
         Assert.assertNotNull(checkDto.getCreated());
         Assert.assertNotNull(checkDto.getModified());
         Assert.assertNotNull(checkDto.getRefresh());
-        Assert.assertNotNull(checkDto.getLocked());
+        Assert.assertNotNull(checkDto.getLocked().get());
         Assert.assertEquals(1, checkDto.getInterval());
         Assert.assertEquals(true, checkDto.isConfirming());
         Assert.assertEquals(1, checkDto.getVersion());

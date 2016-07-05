@@ -19,6 +19,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
 @Repository
@@ -131,7 +132,7 @@ public class ResultRepositoryJdbc implements ResultRepository
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("check_id", resultDto.getCheckId())
-                .addValue("previous_result_id", resultDto.getPreviousResultId() == 0 ? null : resultDto.getPreviousResultId())
+                .addValue("previous_result_id", resultDto.getPreviousResultId().isPresent() ? resultDto.getPreviousResultId().getAsLong() : null)
                 .addValue("status", resultDto.getStatus().toString())
                 .addValue("probe", resultDto.getProbe())
                 .addValue("status_code", resultDto.getStatusCode())
@@ -161,7 +162,7 @@ public class ResultRepositoryJdbc implements ResultRepository
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", updatedResultDto.getId())
                 .addValue("check_id", updatedResultDto.getCheckId())
-                .addValue("previous_result_id", updatedResultDto.getPreviousResultId() == 0 ? null : updatedResultDto.getPreviousResultId())
+                .addValue("previous_result_id", resultDto.getPreviousResultId().isPresent() ? resultDto.getPreviousResultId().getAsLong() : null)
                 .addValue("status", updatedResultDto.getStatus().toString())
                 .addValue("probe", updatedResultDto.getProbe())
                 .addValue("status_code", updatedResultDto.getStatusCode())
@@ -182,7 +183,7 @@ public class ResultRepositoryJdbc implements ResultRepository
         return (rs, rowNum) -> ResultDto.builder()
                 .id(rs.getLong("id"))
                 .checkId(rs.getLong("check_id"))
-                .previousResultId(rs.getLong("previous_result_id"))
+                .previousResultId(rs.getLong("previous_result_id") != 0 ? OptionalLong.of(rs.getLong("previous_result_id")) : OptionalLong.empty())
                 .status(Status.valueOf(rs.getString("status")))
                 .probe(rs.getString("probe"))
                 .statusCode(rs.getInt("status_code"))
@@ -208,7 +209,7 @@ public class ResultRepositoryJdbc implements ResultRepository
             ResultDto resultDto = resultDtos.get(i);
             parameters[i] = new MapSqlParameterSource()
                     .addValue("check_id", resultDto.getCheckId())
-                    .addValue("previous_result_id", resultDto.getPreviousResultId() == 0 ? null : resultDto.getPreviousResultId())
+                    .addValue("previous_result_id", resultDto.getPreviousResultId().isPresent() ? resultDto.getPreviousResultId().getAsLong() : null)
                     .addValue("status", resultDto.getStatus().toString())
                     .addValue("probe", resultDto.getProbe())
                     .addValue("status_code", resultDto.getStatusCode())
