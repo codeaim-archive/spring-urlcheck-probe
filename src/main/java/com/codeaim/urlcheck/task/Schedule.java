@@ -29,7 +29,6 @@ public class Schedule implements SchedulingConfigurer
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar)
     {
-        System.out.println("configureTasks:" + isDisabled);
         if (!isDisabled)
         {
             taskRegistrar.addFixedDelayTask(() -> this.checkTask.run(), 2000);
