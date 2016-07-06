@@ -1,5 +1,7 @@
 package com.codeaim.urlcheck.domain;
 
+import org.apache.commons.lang3.Validate;
+
 import java.time.Instant;
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -177,90 +179,120 @@ public final class CheckDto
 
         public Builder id(final long id)
         {
+            Validate.notNull(id);
+
             this.id = id;
             return this;
         }
 
         public Builder userId(final long userId)
         {
+            Validate.notNull(userId);
+
             this.userId = userId;
             return this;
         }
 
         public Builder latestResultId(final OptionalLong latestResultId)
         {
+            Validate.notNull(latestResultId);
+
             this.latestResultId = latestResultId;
             return this;
         }
 
         public Builder name(final String name)
         {
+            Validate.notNull(name);
+
             this.name = name;
             return this;
         }
 
         public Builder url(final String url)
         {
+            Validate.notNull(url);
+
             this.url = url;
             return this;
         }
 
         public Builder probe(final Optional<String> probe)
         {
+            Validate.notNull(probe);
+
             this.probe = probe;
             return this;
         }
 
         public Builder status(final Status status)
         {
+            Validate.notNull(status);
+
             this.status = status;
             return this;
         }
 
         public Builder state(final State state)
         {
+            Validate.notNull(state);
+
             this.state = state;
             return this;
         }
 
         public Builder created(final Instant created)
         {
+            Validate.notNull(created);
+
             this.created = created;
             return this;
         }
 
         public Builder modified(final Instant modified)
         {
+            Validate.notNull(modified);
+
             this.modified = modified;
             return this;
         }
 
         public Builder refresh(final Instant refresh)
         {
+            Validate.notNull(refresh);
+
             this.refresh = refresh;
             return this;
         }
 
         public Builder locked(final Optional<Instant> locked)
         {
+            Validate.notNull(locked);
+
             this.locked = locked;
             return this;
         }
 
         public Builder interval(final int interval)
         {
+            Validate.notNull(interval);
+
             this.interval = interval;
             return this;
         }
 
         public Builder confirming(final boolean confirming)
         {
+            Validate.notNull(confirming);
+
             this.confirming = confirming;
             return this;
         }
 
         public Builder version(final long version)
         {
+            Validate.notNull(version);
+
             this.version = version;
             return this;
         }

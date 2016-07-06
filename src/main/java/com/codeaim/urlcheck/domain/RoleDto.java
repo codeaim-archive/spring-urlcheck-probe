@@ -1,5 +1,7 @@
 package com.codeaim.urlcheck.domain;
 
+import org.apache.commons.lang3.Validate;
+
 public final class RoleDto
 {
     private long id;
@@ -43,12 +45,16 @@ public final class RoleDto
 
         public Builder id(final long id)
         {
+            Validate.notNull(id);
+
             this.id = id;
             return this;
         }
 
         public Builder name(final String name)
         {
+            Validate.notNull(name);
+
             this.name = name;
             return this;
         }

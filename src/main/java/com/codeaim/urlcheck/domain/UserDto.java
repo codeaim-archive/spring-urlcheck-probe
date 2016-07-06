@@ -1,5 +1,7 @@
 package com.codeaim.urlcheck.domain;
 
+import org.apache.commons.lang3.Validate;
+
 import java.time.Instant;
 
 public final class UserDto
@@ -124,60 +126,80 @@ public final class UserDto
 
         public Builder id(final long id)
         {
+            Validate.notNull(id);
+
             this.id = id;
             return this;
         }
 
         public Builder name(final String name)
         {
+            Validate.notNull(name);
+
             this.name = name;
             return this;
         }
 
         public Builder email(final String email)
         {
+            Validate.notNull(email);
+
             this.email = email;
             return this;
         }
 
         public Builder resetToken(final String resetToken)
         {
+            Validate.notNull(resetToken);
+
             this.resetToken = resetToken;
             return this;
         }
 
         public Builder accessToken(final String accessToken)
         {
+            Validate.notNull(accessToken);
+
             this.accessToken = accessToken;
             return this;
         }
 
         public Builder password(final String password)
         {
+            Validate.notNull(password);
+
             this.password = password;
             return this;
         }
 
         public Builder emailVerified(final boolean emailVerified)
         {
+            Validate.notNull(emailVerified);
+
             this.emailVerified = emailVerified;
             return this;
         }
 
         public Builder created(final Instant created)
         {
+            Validate.notNull(created);
+
             this.created = created;
             return this;
         }
 
         public Builder modified(final Instant modified)
         {
+            Validate.notNull(modified);
+
             this.modified = modified;
             return this;
         }
 
         public Builder version(final long version)
         {
+            Validate.notNull(version);
+
             this.version = version;
             return this;
         }

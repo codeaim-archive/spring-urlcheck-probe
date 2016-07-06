@@ -1,5 +1,7 @@
 package com.codeaim.urlcheck.domain;
 
+import org.apache.commons.lang3.Validate;
+
 import java.time.Instant;
 import java.util.OptionalLong;
 
@@ -146,72 +148,96 @@ public final class ResultDto
 
         public Builder id(final long id)
         {
+            Validate.notNull(id);
+
             this.id = id;
             return this;
         }
 
         public Builder checkId(final long checkId)
         {
+            Validate.notNull(checkId);
+
             this.checkId = checkId;
             return this;
         }
 
         public Builder previousResultId(final OptionalLong previousResultId)
         {
+            Validate.notNull(previousResultId);
+
             this.previousResultId = previousResultId;
             return this;
         }
 
         public Builder probe(final String probe)
         {
+            Validate.notNull(probe);
+
             this.probe = probe;
             return this;
         }
 
         public Builder status(final Status status)
         {
+            Validate.notNull(status);
+
             this.status = status;
             return this;
         }
 
         public Builder statusCode(final int statusCode)
         {
+            Validate.notNull(statusCode);
+
             this.statusCode = statusCode;
             return this;
         }
 
         public Builder responseTime(final int responseTime)
         {
+            Validate.notNull(responseTime);
+
             this.responseTime = responseTime;
             return this;
         }
 
         public Builder changed(final boolean changed)
         {
+            Validate.notNull(changed);
+
             this.changed = changed;
             return this;
         }
 
         public Builder confirmation(final boolean confirmation)
         {
+            Validate.notNull(confirmation);
+
             this.confirmation = confirmation;
             return this;
         }
 
         public Builder created(final Instant created)
         {
+            Validate.notNull(created);
+
             this.created = created;
             return this;
         }
 
         public Builder modified(final Instant modified)
         {
+            Validate.notNull(modified);
+
             this.modified = modified;
             return this;
         }
 
         public Builder version(final long version)
         {
+            Validate.notNull(version);
+
             this.version = version;
             return this;
         }
