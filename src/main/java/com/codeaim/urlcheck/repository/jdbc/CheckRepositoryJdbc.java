@@ -204,14 +204,15 @@ public class CheckRepositoryJdbc implements CheckRepository
     }
 
     @Override
-    public Collection<CheckDto> findElectableChecks(String probe, boolean isClustered, Instant instant)
+    public Collection<CheckDto> findElectableChecks(String probe, boolean isClustered, Instant instant, long candidatePoolSize)
     {
-        String findElectableChecksSql = "SELECT * FROM \"check\" WHERE ((state = 'WAITING'::state AND refresh <= :instant) OR (state = 'ELECTED'::state AND locked <= :instant)) AND ((:isClustered = FALSE) OR (confirming = FALSE) OR (:isClustered = TRUE AND probe <> :probe)) ORDER BY refresh DESC";
+        String findElectableChecksSql = "SELECT * FROM \"check\" WHERE ((state = 'WAITING'::state AND refresh <= :instant) OR (state = 'ELECTED'::state AND locked <= :instant)) AND ((:isClustered = FALSE) OR (confirming = FALSE) OR (:isClustered = TRUE AND probe <> :probe)) ORDER BY refresh DESC LIMIT :candidatePoolSize";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("instant", Timestamp.from(instant))
                 .addValue("probe", probe)
-                .addValue("isClustered", isClustered);
+                .addValue("isClustered", isClustered)
+                .addValue("candidatePoolSize", candidatePoolSize);
 
         return this.namedParameterJdbcTemplate
                 .query(findElectableChecksSql, parameters, mapCheckDto());

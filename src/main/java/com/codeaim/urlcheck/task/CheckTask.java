@@ -29,6 +29,7 @@ public class CheckTask
     private ResultRepository resultRepository;
     private String probe;
     private boolean isClustered;
+    private long candidatePoolSize;
 
     @Autowired
     public CheckTask(
@@ -38,7 +39,9 @@ public class CheckTask
             @Value("${com.codeaim.urlcheck.probe:Standalone}")
             String probe,
             @Value("${com.codeaim.urlcheck.isClustered:false}")
-            boolean isClustered
+            boolean isClustered,
+            @Value("${com.codeaim.urlcheck.candidatePoolSize:5}")
+            long candidatePoolSize
     )
     {
         this.restTemplate = restTemplate;
@@ -46,6 +49,7 @@ public class CheckTask
         this.resultRepository = resultRepository;
         this.probe = probe;
         this.isClustered = isClustered;
+        this.candidatePoolSize = candidatePoolSize;
     }
 
     public void run()
@@ -56,16 +60,20 @@ public class CheckTask
                         checkRepository,
                         findElectableChecks(
                                 checkRepository,
-                                isClustered))
+                                probe,
+                                isClustered,
+                                candidatePoolSize))
                         .stream()
                         .map(electedCheck -> {
                             long startResponseTime =
                                     System.currentTimeMillis();
                             return updateCheckStatus(
                                     checkRepository,
+                                    probe,
                                     electedCheck,
                                     createCheckResult(
                                             resultRepository,
+                                            probe,
                                             electedCheck,
                                             startResponseTime,
                                             requestCheckUrlStatus(
@@ -77,13 +85,16 @@ public class CheckTask
 
     Collection<CheckDto> findElectableChecks(
             CheckRepository checkRepository,
-            boolean isClustered
+            String probe,
+            boolean isClustered,
+            long candidatePoolSize
     )
     {
         return checkRepository.findElectableChecks(
                 probe,
                 isClustered,
-                Instant.now());
+                Instant.now(),
+                candidatePoolSize);
     }
 
     Collection<CheckDto> markChecksElected(
@@ -127,6 +138,7 @@ public class CheckTask
 
     private ResultDto createCheckResult(
             ResultRepository resultRepository,
+            String probe,
             CheckDto checkDto,
             long startResponseTime,
             HttpStatus checkUrlStatus
@@ -147,6 +159,7 @@ public class CheckTask
 
     private CheckDto updateCheckStatus(
             CheckRepository checkRepository,
+            String probe,
             CheckDto checkDto,
             ResultDto resultDto
     )
@@ -155,27 +168,32 @@ public class CheckTask
             return checkRepository.save(
                     statusChangeConfirmed(
                             checkDto,
-                            resultDto));
+                            resultDto,
+                            probe));
         if (!resultDto.isChanged() && resultDto.isConfirmation())
             return checkRepository.save(
                     statusChangeConfirmationInconclusive(
                             checkDto,
-                            resultDto));
+                            resultDto,
+                            probe));
         if (resultDto.isChanged())
             return checkRepository.save(
                     statusChangeConfirmationRequired(
                             checkDto,
-                            resultDto));
+                            resultDto,
+                            probe));
 
         return checkRepository.save(
                 statusChangeNone(
                         checkDto,
-                        resultDto));
+                        resultDto,
+                        probe));
     }
 
     private CheckDto statusChangeNone(
             CheckDto checkDto,
-            ResultDto resultDto
+            ResultDto resultDto,
+            String probe
     )
     {
         return CheckDto
@@ -192,7 +210,8 @@ public class CheckTask
 
     private CheckDto statusChangeConfirmationRequired(
             CheckDto checkDto,
-            ResultDto resultDto
+            ResultDto resultDto,
+            String probe
     )
     {
         return CheckDto
@@ -207,7 +226,8 @@ public class CheckTask
 
     private CheckDto statusChangeConfirmationInconclusive(
             CheckDto checkDto,
-            ResultDto resultDto
+            ResultDto resultDto,
+            String probe
     )
     {
         return CheckDto
@@ -222,7 +242,8 @@ public class CheckTask
 
     private CheckDto statusChangeConfirmed(
             CheckDto checkDto,
-            ResultDto resultDto
+            ResultDto resultDto,
+            String probe
     )
     {
         return CheckDto

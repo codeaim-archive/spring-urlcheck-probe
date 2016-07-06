@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface CheckRepository extends CrudRepository<CheckDto, Long>
 {
-    Collection<CheckDto> findElectableChecks(String probe, boolean isClustered, Instant instant);
+    Collection<CheckDto> findElectableChecks(String probe, boolean isClustered, Instant instant, long candidatePoolSize);
 
     Collection<CheckDto> markChecksElected(Collection<CheckDto> checkDtos);
 

@@ -352,7 +352,55 @@ public class CheckRepositoryJdbcTest
                 .state(State.WAITING)
                 .refresh(Instant
                         .now()
-                        .plus(Duration
+                        .minus(Duration
+                                .ofMinutes(1)))
+                .interval(1)
+                .confirming(true)
+                .version(1)
+                .build();
+
+        CheckDto fourthCheckDto = CheckDto.builder()
+                .userId(savedUserDto.getId())
+                .name("name4")
+                .url("http://www.example4.com")
+                .probe(Optional.of("probe"))
+                .status(Status.UNKNOWN)
+                .state(State.WAITING)
+                .refresh(Instant
+                        .now()
+                        .minus(Duration
+                                .ofMinutes(1)))
+                .interval(1)
+                .confirming(true)
+                .version(1)
+                .build();
+
+        CheckDto fifthCheckDto = CheckDto.builder()
+                .userId(savedUserDto.getId())
+                .name("name5")
+                .url("http://www.example5.com")
+                .probe(Optional.of("probe"))
+                .status(Status.UNKNOWN)
+                .state(State.WAITING)
+                .refresh(Instant
+                        .now()
+                        .minus(Duration
+                                .ofMinutes(1)))
+                .interval(1)
+                .confirming(true)
+                .version(1)
+                .build();
+
+        CheckDto sixthCheckDto = CheckDto.builder()
+                .userId(savedUserDto.getId())
+                .name("name6")
+                .url("http://www.example6.com")
+                .probe(Optional.of("probe"))
+                .status(Status.UNKNOWN)
+                .state(State.WAITING)
+                .refresh(Instant
+                        .now()
+                        .minus(Duration
                                 .ofMinutes(1)))
                 .interval(1)
                 .confirming(true)
@@ -362,19 +410,26 @@ public class CheckRepositoryJdbcTest
         CheckDto savedFirstCheckDto = checkRepository.save(firstCheckDto);
         CheckDto savedSecondCheckDto = checkRepository.save(secondCheckDto);
         CheckDto savedThirdCheckDto = checkRepository.save(thirdCheckDto);
+        CheckDto savedFourthCheckDto = checkRepository.save(fourthCheckDto);
+        CheckDto savedFifthCheckDto = checkRepository.save(fifthCheckDto);
+        CheckDto savedSixthCheckDto = checkRepository.save(sixthCheckDto);
 
         Collection<CheckDto> electableChecks = checkRepository
                 .findElectableChecks(
                         "probe",
                         false,
-                        Instant.now());
+                        Instant.now(),
+                        5);
 
         userRepository.delete(savedUserDto);
         checkRepository.delete(savedFirstCheckDto);
         checkRepository.delete(savedSecondCheckDto);
         checkRepository.delete(savedThirdCheckDto);
+        checkRepository.delete(savedFourthCheckDto);
+        checkRepository.delete(savedFifthCheckDto);
+        checkRepository.delete(savedSixthCheckDto);
 
-        Assert.assertTrue(electableChecks.size() >= 2);
+        Assert.assertTrue(electableChecks.size() == 5);
     }
 
     @Test
