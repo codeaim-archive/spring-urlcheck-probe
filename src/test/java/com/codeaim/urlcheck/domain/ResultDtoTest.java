@@ -25,7 +25,7 @@ public class ResultDtoTest
                 .status(Status.UNKNOWN)
                 .probe("probe")
                 .statusCode(200)
-                .responseTime(1000)
+                .responseTime(OptionalLong.of(1000))
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
@@ -39,7 +39,7 @@ public class ResultDtoTest
         Assert.assertEquals(Status.UNKNOWN, resultDto.getStatus());
         Assert.assertEquals("probe", resultDto.getProbe());
         Assert.assertEquals(200, resultDto.getStatusCode());
-        Assert.assertEquals(1000, resultDto.getResponseTime());
+        Assert.assertEquals(1000, resultDto.getResponseTime().getAsLong());
         Assert.assertEquals(true, resultDto.isChanged());
         Assert.assertEquals(true, resultDto.isConfirmation());
         Assert.assertNotNull(resultDto.getCreated());
@@ -57,7 +57,7 @@ public class ResultDtoTest
                 .status(Status.UNKNOWN)
                 .probe("probe")
                 .statusCode(200)
-                .responseTime(1000)
+                .responseTime(OptionalLong.of(1000))
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
@@ -72,7 +72,7 @@ public class ResultDtoTest
         Assert.assertEquals(Status.UNKNOWN, resultDto.getStatus());
         Assert.assertEquals("probe", resultDto.getProbe());
         Assert.assertEquals(200, resultDto.getStatusCode());
-        Assert.assertEquals(1000, resultDto.getResponseTime());
+        Assert.assertEquals(1000, resultDto.getResponseTime().getAsLong());
         Assert.assertEquals(true, resultDto.isChanged());
         Assert.assertEquals(true, resultDto.isConfirmation());
         Assert.assertNotNull(resultDto.getCreated());

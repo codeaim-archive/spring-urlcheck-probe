@@ -50,7 +50,7 @@ CREATE TABLE result (
   status             status       NOT NULL,
   probe              VARCHAR(255) NOT NULL,
   status_code        INT          NOT NULL,
-  response_time      INT          NOT NULL,
+  response_time      BIGINT       NULL,
   changed            BOOLEAN      NOT NULL,
   confirmation       BOOLEAN      NOT NULL,
   created            TIMESTAMP    NOT NULL,

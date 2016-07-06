@@ -149,7 +149,7 @@ public class CheckTask
                 .checkId(checkDto.getId())
                 .previousResultId(checkDto.getLatestResultId())
                 .probe(probe)
-                .responseTime((int) (System.currentTimeMillis() - startResponseTime))
+                .responseTime(OptionalLong.of(System.currentTimeMillis() - startResponseTime))
                 .statusCode(checkUrlStatus.value())
                 .status((checkUrlStatus.is2xxSuccessful()) ? Status.UP : Status.DOWN)
                 .changed(!Objects.equals((checkUrlStatus.is2xxSuccessful()) ? Status.UP : Status.DOWN, checkDto.getStatus()))

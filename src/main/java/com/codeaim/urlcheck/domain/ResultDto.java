@@ -13,7 +13,7 @@ public final class ResultDto
     private String probe;
     private Status status;
     private int statusCode;
-    private int responseTime;
+    private OptionalLong responseTime;
     private boolean changed;
     private boolean confirmation;
     private Instant created;
@@ -27,7 +27,7 @@ public final class ResultDto
             final String probe,
             final Status status,
             final int statusCode,
-            final int responseTime,
+            final OptionalLong responseTime,
             final boolean changed,
             final boolean confirmation,
             final Instant created,
@@ -101,7 +101,7 @@ public final class ResultDto
         return statusCode;
     }
 
-    public int getResponseTime()
+    public OptionalLong getResponseTime()
     {
         return responseTime;
     }
@@ -139,7 +139,7 @@ public final class ResultDto
         private String probe;
         private Status status;
         private int statusCode;
-        private int responseTime;
+        private OptionalLong responseTime;
         private boolean changed;
         private boolean confirmation;
         private Instant created;
@@ -194,7 +194,7 @@ public final class ResultDto
             return this;
         }
 
-        public Builder responseTime(final int responseTime)
+        public Builder responseTime(final OptionalLong responseTime)
         {
             Validate.notNull(responseTime);
 
