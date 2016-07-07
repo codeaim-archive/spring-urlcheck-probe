@@ -119,7 +119,7 @@ public class CheckTask
 
             return restTemplate
                     .exchange(
-                            checkDto.getUrl(),
+                            checkDto.getUrl().uri(),
                             HttpMethod.GET,
                             new HttpEntity<>("", headers),
                             String.class)

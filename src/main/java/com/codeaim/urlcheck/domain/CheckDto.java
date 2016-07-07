@@ -1,7 +1,9 @@
 package com.codeaim.urlcheck.domain;
 
+import okhttp3.HttpUrl;
 import org.apache.commons.lang3.Validate;
 
+import java.net.URL;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -12,7 +14,7 @@ public final class CheckDto
     private long userId;
     private OptionalLong latestResultId;
     private String name;
-    private String url;
+    private HttpUrl url;
     private Optional<String> probe;
     private Status status;
     private State state;
@@ -29,7 +31,7 @@ public final class CheckDto
             final long userId,
             final OptionalLong latestResultId,
             final String name,
-            final String url,
+            final HttpUrl url,
             final Optional<String> probe,
             final Status status,
             final State state,
@@ -104,7 +106,7 @@ public final class CheckDto
         return name;
     }
 
-    public String getUrl()
+    public HttpUrl getUrl()
     {
         return url;
     }
@@ -165,7 +167,7 @@ public final class CheckDto
         private long userId;
         private OptionalLong latestResultId = OptionalLong.empty();
         private String name;
-        private String url;
+        private HttpUrl url;
         private Optional<String> probe = Optional.empty();
         private Status status;
         private State state;
@@ -209,7 +211,7 @@ public final class CheckDto
             return this;
         }
 
-        public Builder url(final String url)
+        public Builder url(final HttpUrl url)
         {
             Validate.notNull(url);
 

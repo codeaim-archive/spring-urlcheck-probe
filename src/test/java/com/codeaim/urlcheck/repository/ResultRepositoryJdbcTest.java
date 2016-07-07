@@ -2,6 +2,7 @@ package com.codeaim.urlcheck.repository;
 
 import com.codeaim.urlcheck.Application;
 import com.codeaim.urlcheck.domain.*;
+import okhttp3.HttpUrl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +48,7 @@ public class ResultRepositoryJdbcTest
         CheckDto checkDto = CheckDto.builder()
                 .userId(savedUserDto.getId())
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -113,7 +114,7 @@ public class ResultRepositoryJdbcTest
         CheckDto checkDto = CheckDto.builder()
                 .userId(savedUserDto.getId())
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -165,7 +166,7 @@ public class ResultRepositoryJdbcTest
         CheckDto checkDto = CheckDto.builder()
                 .userId(savedUserDto.getId())
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -233,7 +234,7 @@ public class ResultRepositoryJdbcTest
         CheckDto checkDto = CheckDto.builder()
                 .userId(savedUserDto.getId())
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -302,7 +303,7 @@ public class ResultRepositoryJdbcTest
         CheckDto checkDto = CheckDto.builder()
                 .userId(savedUserDto.getId())
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -352,7 +353,7 @@ public class ResultRepositoryJdbcTest
         CheckDto checkDto = CheckDto.builder()
                 .userId(savedUserDto.getId())
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -407,7 +408,7 @@ public class ResultRepositoryJdbcTest
         CheckDto checkDto = CheckDto.builder()
                 .userId(savedUserDto.getId())
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)

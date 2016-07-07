@@ -1,5 +1,6 @@
 package com.codeaim.urlcheck.domain;
 
+import okhttp3.HttpUrl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ public class CheckDtoTest
                 .userId(1)
                 .latestResultId(OptionalLong.of(1))
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -37,7 +38,7 @@ public class CheckDtoTest
         Assert.assertEquals(1, checkDto.getUserId());
         Assert.assertEquals(1, checkDto.getLatestResultId().getAsLong());
         Assert.assertEquals("name", checkDto.getName());
-        Assert.assertEquals("http://www.example.com", checkDto.getUrl());
+        Assert.assertEquals("http://www.example.com/", checkDto.getUrl().toString());
         Assert.assertEquals("probe", checkDto.getProbe().get());
         Assert.assertEquals(Status.UNKNOWN, checkDto.getStatus());
         Assert.assertEquals(State.WAITING, checkDto.getState());
@@ -58,7 +59,7 @@ public class CheckDtoTest
                 .userId(1)
                 .latestResultId(OptionalLong.of(1))
                 .name("name")
-                .url("http://www.example.com")
+                .url(HttpUrl.parse("http://www.example.com/"))
                 .probe(Optional.of("probe"))
                 .status(Status.UNKNOWN)
                 .state(State.WAITING)
@@ -76,7 +77,7 @@ public class CheckDtoTest
         Assert.assertEquals(1, checkDto.getUserId());
         Assert.assertEquals(1, checkDto.getLatestResultId().getAsLong());
         Assert.assertEquals("name", checkDto.getName());
-        Assert.assertEquals("http://www.example.com", checkDto.getUrl());
+        Assert.assertEquals("http://www.example.com/", checkDto.getUrl().toString());
         Assert.assertEquals("probe", checkDto.getProbe().get());
         Assert.assertEquals(Status.UNKNOWN, checkDto.getStatus());
         Assert.assertEquals(State.WAITING, checkDto.getState());

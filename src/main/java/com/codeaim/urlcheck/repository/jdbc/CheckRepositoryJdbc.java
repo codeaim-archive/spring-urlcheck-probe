@@ -4,6 +4,7 @@ import com.codeaim.urlcheck.domain.CheckDto;
 import com.codeaim.urlcheck.domain.State;
 import com.codeaim.urlcheck.domain.Status;
 import com.codeaim.urlcheck.repository.CheckRepository;
+import okhttp3.HttpUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.net.URL;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
@@ -132,7 +134,7 @@ public class CheckRepositoryJdbc implements CheckRepository
                 .addValue("user_id", checkDto.getUserId())
                 .addValue("latest_result_id", checkDto.getLatestResultId().isPresent() ? checkDto.getLatestResultId().getAsLong() : null)
                 .addValue("name", checkDto.getName())
-                .addValue("url", checkDto.getUrl())
+                .addValue("url", checkDto.getUrl().toString())
                 .addValue("probe", checkDto.getProbe().isPresent() ? checkDto.getProbe().get() : null)
                 .addValue("status", checkDto.getStatus().toString())
                 .addValue("state", checkDto.getState().toString())
@@ -165,7 +167,7 @@ public class CheckRepositoryJdbc implements CheckRepository
                 .addValue("user_id", updatedCheckDto.getUserId())
                 .addValue("latest_result_id", updatedCheckDto.getLatestResultId().isPresent() ? updatedCheckDto.getLatestResultId().getAsLong() : null)
                 .addValue("name", updatedCheckDto.getName())
-                .addValue("url", updatedCheckDto.getUrl())
+                .addValue("url", updatedCheckDto.getUrl().toString())
                 .addValue("probe", updatedCheckDto.getProbe().isPresent() ? updatedCheckDto.getProbe().get() : null)
                 .addValue("status", updatedCheckDto.getStatus().toString())
                 .addValue("state", updatedCheckDto.getState().toString())
@@ -189,7 +191,7 @@ public class CheckRepositoryJdbc implements CheckRepository
                 .userId(rs.getLong("user_id"))
                 .latestResultId(rs.getLong("latest_result_id") != 0 ? OptionalLong.of(rs.getLong("latest_result_id")) : OptionalLong.empty())
                 .name(rs.getString("name"))
-                .url(rs.getString("url"))
+                .url(HttpUrl.parse(rs.getString("url")))
                 .probe(Optional.ofNullable(rs.getString("probe")))
                 .status(Status.valueOf(rs.getString("status")))
                 .state(State.valueOf(rs.getString("state")))
@@ -270,7 +272,7 @@ public class CheckRepositoryJdbc implements CheckRepository
                     .addValue("user_id", updatedCheckDto.getUserId())
                     .addValue("latest_result_id", updatedCheckDto.getLatestResultId().isPresent() ? updatedCheckDto.getLatestResultId().getAsLong() : null)
                     .addValue("name", updatedCheckDto.getName())
-                    .addValue("url", updatedCheckDto.getUrl())
+                    .addValue("url", updatedCheckDto.getUrl().toString())
                     .addValue("probe", updatedCheckDto.getProbe().isPresent() ? updatedCheckDto.getProbe().get() : null)
                     .addValue("status", updatedCheckDto.getStatus().toString())
                     .addValue("state", updatedCheckDto.getState().toString())
