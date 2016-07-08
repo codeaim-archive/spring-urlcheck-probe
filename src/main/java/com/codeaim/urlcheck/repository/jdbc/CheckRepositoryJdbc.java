@@ -15,8 +15,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.net.URL;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -231,6 +231,7 @@ public class CheckRepositoryJdbc implements CheckRepository
         List<CheckDto> electedChecks = checkDtos.stream()
                 .map(checkDto -> CheckDto.buildFrom(checkDto)
                         .state(State.ELECTED)
+                        .locked(Optional.of(Instant.now().plus(Duration.ofMinutes(1))))
                         .build())
                 .collect(Collectors.toList());
 

@@ -1,6 +1,7 @@
 package com.codeaim.urlcheck.domain;
 
 import org.apache.commons.lang3.Validate;
+import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 import java.util.OptionalLong;
@@ -12,7 +13,7 @@ public final class ResultDto
     private OptionalLong previousResultId;
     private String probe;
     private Status status;
-    private int statusCode;
+    private HttpStatus statusCode;
     private OptionalLong responseTime;
     private boolean changed;
     private boolean confirmation;
@@ -26,7 +27,7 @@ public final class ResultDto
             final OptionalLong previousResultId,
             final String probe,
             final Status status,
-            final int statusCode,
+            final HttpStatus statusCode,
             final OptionalLong responseTime,
             final boolean changed,
             final boolean confirmation,
@@ -96,7 +97,7 @@ public final class ResultDto
         return status;
     }
 
-    public int getStatusCode()
+    public HttpStatus getStatusCode()
     {
         return statusCode;
     }
@@ -138,7 +139,7 @@ public final class ResultDto
         private OptionalLong previousResultId = OptionalLong.empty();
         private String probe;
         private Status status;
-        private int statusCode;
+        private HttpStatus statusCode;
         private OptionalLong responseTime;
         private boolean changed;
         private boolean confirmation;
@@ -186,7 +187,7 @@ public final class ResultDto
             return this;
         }
 
-        public Builder statusCode(final int statusCode)
+        public Builder statusCode(final HttpStatus statusCode)
         {
             Validate.notNull(statusCode);
 

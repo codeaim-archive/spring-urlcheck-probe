@@ -4,6 +4,7 @@ import com.codeaim.urlcheck.domain.ResultDto;
 import com.codeaim.urlcheck.domain.Status;
 import com.codeaim.urlcheck.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -134,7 +135,7 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .addValue("previous_result_id", resultDto.getPreviousResultId().isPresent() ? resultDto.getPreviousResultId().getAsLong() : null)
                 .addValue("status", resultDto.getStatus().toString())
                 .addValue("probe", resultDto.getProbe())
-                .addValue("status_code", resultDto.getStatusCode())
+                .addValue("status_code", resultDto.getStatusCode().value())
                 .addValue("response_time", resultDto.getResponseTime().isPresent() ? resultDto.getResponseTime().getAsLong() : null)
                 .addValue("changed", resultDto.isChanged())
                 .addValue("confirmation", resultDto.isConfirmation())
@@ -164,7 +165,7 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .addValue("previous_result_id", updatedResultDto.getPreviousResultId().isPresent() ? resultDto.getPreviousResultId().getAsLong() : null)
                 .addValue("status", updatedResultDto.getStatus().toString())
                 .addValue("probe", updatedResultDto.getProbe())
-                .addValue("status_code", updatedResultDto.getStatusCode())
+                .addValue("status_code", updatedResultDto.getStatusCode().value())
                 .addValue("response_time", updatedResultDto.getResponseTime().isPresent() ? resultDto.getResponseTime().getAsLong() : null)
                 .addValue("changed", updatedResultDto.isChanged())
                 .addValue("confirmation", updatedResultDto.isConfirmation())
@@ -185,7 +186,7 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .previousResultId(rs.getLong("previous_result_id") != 0 ? OptionalLong.of(rs.getLong("previous_result_id")) : OptionalLong.empty())
                 .status(Status.valueOf(rs.getString("status")))
                 .probe(rs.getString("probe"))
-                .statusCode(rs.getInt("status_code"))
+                .statusCode(HttpStatus.valueOf(rs.getInt("status_code")))
                 .responseTime(rs.getLong("response_time") != 0 ? OptionalLong.of(rs.getLong("response_time")) : OptionalLong.empty())
                 .changed(rs.getBoolean("changed"))
                 .confirmation(rs.getBoolean("confirmation"))
@@ -211,7 +212,7 @@ public class ResultRepositoryJdbc implements ResultRepository
                     .addValue("previous_result_id", resultDto.getPreviousResultId().isPresent() ? resultDto.getPreviousResultId().getAsLong() : null)
                     .addValue("status", resultDto.getStatus().toString())
                     .addValue("probe", resultDto.getProbe())
-                    .addValue("status_code", resultDto.getStatusCode())
+                    .addValue("status_code", resultDto.getStatusCode().value())
                     .addValue("response_time", resultDto.getResponseTime().isPresent() ? resultDto.getResponseTime().getAsLong() : null)
                     .addValue("changed", resultDto.isChanged())
                     .addValue("confirmation", resultDto.isConfirmation())
