@@ -1,9 +1,9 @@
 package com.codeaim.urlcheck.repository;
 
-import com.codeaim.urlcheck.domain.CheckDto;
-
 import java.time.Instant;
 import java.util.Collection;
+
+import com.codeaim.urlcheck.domain.CheckDto;
 
 public interface CheckRepository extends CrudRepository<CheckDto, Long>
 {

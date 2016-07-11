@@ -1,10 +1,10 @@
 package com.codeaim.urlcheck.domain;
 
-import org.apache.commons.lang3.Validate;
-import org.springframework.http.HttpStatus;
-
 import java.time.Instant;
 import java.util.OptionalLong;
+
+import org.apache.commons.lang3.Validate;
+import org.springframework.http.HttpStatus;
 
 public final class ResultDto
 {

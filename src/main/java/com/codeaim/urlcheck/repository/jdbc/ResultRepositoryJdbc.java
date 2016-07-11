@@ -1,8 +1,13 @@
 package com.codeaim.urlcheck.repository.jdbc;
 
-import com.codeaim.urlcheck.domain.ResultDto;
-import com.codeaim.urlcheck.domain.Status;
-import com.codeaim.urlcheck.repository.ResultRepository;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,13 +19,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.stream.Collectors;
+import com.codeaim.urlcheck.domain.ResultDto;
+import com.codeaim.urlcheck.domain.Status;
+import com.codeaim.urlcheck.repository.ResultRepository;
 
 @Repository
 public class ResultRepositoryJdbc implements ResultRepository

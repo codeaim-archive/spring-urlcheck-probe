@@ -1,8 +1,8 @@
 package com.codeaim.urlcheck.domain;
 
-import org.apache.commons.lang3.Validate;
-
 import java.time.Instant;
+
+import org.apache.commons.lang3.Validate;
 
 public final class UserDto
 {

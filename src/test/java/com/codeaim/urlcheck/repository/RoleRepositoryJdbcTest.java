@@ -1,7 +1,10 @@
 package com.codeaim.urlcheck.repository;
 
-import com.codeaim.urlcheck.Application;
-import com.codeaim.urlcheck.domain.RoleDto;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import com.codeaim.urlcheck.Application;
+import com.codeaim.urlcheck.domain.RoleDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
@@ -29,10 +31,16 @@ public class RoleRepositoryJdbcTest
     {
         RoleDto firstRoleDto = RoleDto.builder()
                 .name("name")
+                .checkLimit(10)
+                .resultEventLimit(50)
+                .resultRetentionDuration(Duration.ofMinutes(12))
                 .build();
 
         RoleDto secondRoleDto = RoleDto.builder()
                 .name("name2")
+                .checkLimit(10)
+                .resultEventLimit(50)
+                .resultRetentionDuration(Duration.ofHours(45))
                 .build();
 
         Collection<RoleDto> savedRoleDtos = roleRepository.save(Arrays.asList(firstRoleDto, secondRoleDto));
@@ -49,6 +57,9 @@ public class RoleRepositoryJdbcTest
     {
         RoleDto roleDto = RoleDto.builder()
                 .name("name")
+                .checkLimit(10)
+                .resultEventLimit(50)
+                .resultRetentionDuration(Duration.ZERO)
                 .build();
 
         RoleDto savedRoleDto = roleRepository.save(roleDto);
@@ -65,6 +76,9 @@ public class RoleRepositoryJdbcTest
     {
         RoleDto roleDto = RoleDto.builder()
                 .name("name")
+                .checkLimit(10)
+                .resultEventLimit(50)
+                .resultRetentionDuration(Duration.ZERO)
                 .build();
 
         RoleDto savedRoleDto = roleRepository.save(roleDto);
@@ -97,10 +111,16 @@ public class RoleRepositoryJdbcTest
     {
         RoleDto firstRoleDto = RoleDto.builder()
                 .name("name")
+                .checkLimit(10)
+                .resultEventLimit(50)
+                .resultRetentionDuration(Duration.ZERO)
                 .build();
 
         RoleDto secondRoleDto = RoleDto.builder()
                 .name("name2")
+                .checkLimit(10)
+                .resultEventLimit(50)
+                .resultRetentionDuration(Duration.ofDays(765).plusMinutes(45))
                 .build();
 
         RoleDto savedFirstRoleDto = roleRepository.save(firstRoleDto);
@@ -118,6 +138,9 @@ public class RoleRepositoryJdbcTest
     {
         RoleDto roleDto = RoleDto.builder()
                 .name("name")
+                .checkLimit(10)
+                .resultEventLimit(50)
+                .resultRetentionDuration(Duration.ZERO)
                 .build();
 
         RoleDto savedRoleDto = roleRepository.save(roleDto);

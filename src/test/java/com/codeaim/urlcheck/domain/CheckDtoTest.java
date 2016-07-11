@@ -1,6 +1,9 @@
 package com.codeaim.urlcheck.domain;
 
-import okhttp3.HttpUrl;
+import java.time.Instant;
+import java.util.Optional;
+import java.util.OptionalLong;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,9 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.Instant;
-import java.util.Optional;
-import java.util.OptionalLong;
+import okhttp3.HttpUrl;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:test.properties")

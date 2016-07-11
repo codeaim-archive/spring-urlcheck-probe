@@ -1,8 +1,11 @@
 package com.codeaim.urlcheck.repository;
 
-import com.codeaim.urlcheck.Application;
-import com.codeaim.urlcheck.domain.*;
-import okhttp3.HttpUrl;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.OptionalLong;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +16,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.OptionalLong;
+import com.codeaim.urlcheck.Application;
+import com.codeaim.urlcheck.domain.CheckDto;
+import com.codeaim.urlcheck.domain.ResultDto;
+import com.codeaim.urlcheck.domain.State;
+import com.codeaim.urlcheck.domain.Status;
+import com.codeaim.urlcheck.domain.UserDto;
+
+import okhttp3.HttpUrl;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)

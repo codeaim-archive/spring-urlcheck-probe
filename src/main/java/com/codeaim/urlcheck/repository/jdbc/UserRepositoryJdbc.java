@@ -1,7 +1,11 @@
 package com.codeaim.urlcheck.repository.jdbc;
 
-import com.codeaim.urlcheck.domain.UserDto;
-import com.codeaim.urlcheck.repository.UserRepository;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,11 +16,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.codeaim.urlcheck.domain.UserDto;
+import com.codeaim.urlcheck.repository.UserRepository;
 
 @Repository
 public class UserRepositoryJdbc implements UserRepository

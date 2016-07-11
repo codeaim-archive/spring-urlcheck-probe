@@ -1,7 +1,9 @@
 package com.codeaim.urlcheck.repository.jdbc;
 
-import com.codeaim.urlcheck.domain.UserRoleDto;
-import com.codeaim.urlcheck.repository.UserRoleRepository;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,9 +14,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.codeaim.urlcheck.domain.UserRoleDto;
+import com.codeaim.urlcheck.repository.UserRoleRepository;
 
 @Repository
 public class UserRoleRepositoryJdbc implements UserRoleRepository

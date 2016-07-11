@@ -1,9 +1,9 @@
 INSERT INTO "user"
 VALUES (DEFAULT, 'gdownes', 'gdownes@gmail.com', 'reset_token', 'access_token', 'password', TRUE, now(), now(), 1);
 
-INSERT INTO role VALUES (DEFAULT, 'admin');
-INSERT INTO role VALUES (DEFAULT, 'verified');
-INSERT INTO role VALUES (DEFAULT, 'registered');
+INSERT INTO role VALUES (DEFAULT, 'registered', 0, 0, '00:00:00');
+INSERT INTO role VALUES (DEFAULT, 'verified', 10, 20, '24:00:00');
+INSERT INTO role VALUES (DEFAULT, 'admin', 50, 50, '168:00:00');
 
 INSERT INTO user_role VALUES (DEFAULT, 1, 1);
 INSERT INTO user_role VALUES (DEFAULT, 1, 2);

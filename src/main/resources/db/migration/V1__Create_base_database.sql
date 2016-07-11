@@ -15,8 +15,11 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE role (
-  id   BIGSERIAL    NOT NULL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL UNIQUE
+  id                        BIGSERIAL    NOT NULL PRIMARY KEY,
+  name                      VARCHAR(255) NOT NULL UNIQUE,
+  check_limit               BIGINT       NOT NULL,
+  result_event_limit        BIGINT       NOT NULL,
+  result_retention_duration INTERVAL     NOT NULL
 );
 
 CREATE TABLE user_role (

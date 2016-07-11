@@ -1,11 +1,12 @@
 package com.codeaim.urlcheck.domain;
 
-import okhttp3.HttpUrl;
-import org.apache.commons.lang3.Validate;
-
 import java.time.Instant;
 import java.util.Optional;
 import java.util.OptionalLong;
+
+import org.apache.commons.lang3.Validate;
+
+import okhttp3.HttpUrl;
 
 public final class CheckDto
 {

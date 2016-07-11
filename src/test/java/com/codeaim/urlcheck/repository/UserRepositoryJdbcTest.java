@@ -1,7 +1,9 @@
 package com.codeaim.urlcheck.repository;
 
-import com.codeaim.urlcheck.Application;
-import com.codeaim.urlcheck.domain.UserDto;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import com.codeaim.urlcheck.Application;
+import com.codeaim.urlcheck.domain.UserDto;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)

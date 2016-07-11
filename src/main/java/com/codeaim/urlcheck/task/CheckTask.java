@@ -1,5 +1,25 @@
 package com.codeaim.urlcheck.task;
 
+import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+
 import com.codeaim.urlcheck.domain.CheckDto;
 import com.codeaim.urlcheck.domain.ResultDto;
 import com.codeaim.urlcheck.domain.State;
@@ -7,23 +27,10 @@ import com.codeaim.urlcheck.domain.Status;
 import com.codeaim.urlcheck.repository.CheckRepository;
 import com.codeaim.urlcheck.repository.ResultRepository;
 import com.codeaim.urlcheck.utility.Futures;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Component
 public class CheckTask
@@ -122,12 +129,10 @@ public class CheckTask
                     .range(0, electedChecks.size())
                     .mapToObj(index -> Pair.of(electedChecks.get(index), responses.get(index)))
                     .collect(Collectors.toList());
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
             return Collections.emptyList();
-        }
-        catch (ExecutionException e)
+        } catch (ExecutionException e)
         {
             return Collections.emptyList();
         }
@@ -141,8 +146,7 @@ public class CheckTask
         try
         {
             return Optional.of(httpClient.newCall(checkUrlRequest).execute());
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             return Optional.empty();
         }
@@ -199,10 +203,10 @@ public class CheckTask
                                 .map(response -> HttpStatus.valueOf(response.code()))
                                 .orElse(HttpStatus.INTERNAL_SERVER_ERROR))
                         .status(checkResponsePair
-                                        .getValue()
-                                        .map(response -> HttpStatus.valueOf(response.code()))
-                                        .orElse(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .is2xxSuccessful() ? Status.UP : Status.DOWN)
+                                .getValue()
+                                .map(response -> HttpStatus.valueOf(response.code()))
+                                .orElse(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .is2xxSuccessful() ? Status.UP : Status.DOWN)
                         .changed(!Objects.equals(
                                 checkResponsePair
                                         .getValue()

@@ -1,19 +1,30 @@
 package com.codeaim.urlcheck.domain;
 
+import java.time.Duration;
+
 import org.apache.commons.lang3.Validate;
 
 public final class RoleDto
 {
     private long id;
     private String name;
+    private long checkLimit;
+    private long resultEventLimit;
+    private Duration resultRetentionDuration;
 
     private RoleDto(
             final long id,
-            final String name
+            final String name,
+            final long checkLimit,
+            final long resultEventLimit,
+            final Duration resultRetentionDuration
     )
     {
         this.id = id;
         this.name = name;
+        this.checkLimit = checkLimit;
+        this.resultEventLimit = resultEventLimit;
+        this.resultRetentionDuration = resultRetentionDuration;
     }
 
     public static Builder builder()
@@ -25,7 +36,10 @@ public final class RoleDto
     {
         return builder()
                 .id(roleDto.getId())
-                .name(roleDto.getName());
+                .name(roleDto.getName())
+                .checkLimit(roleDto.getCheckLimit())
+                .resultEventLimit(roleDto.getResultEventLimit())
+                .resultRetentionDuration(roleDto.getResultRetentionDuration());
     }
 
     public long getId()
@@ -38,10 +52,28 @@ public final class RoleDto
         return name;
     }
 
+    public long getCheckLimit()
+    {
+        return checkLimit;
+    }
+
+    public long getResultEventLimit()
+    {
+        return resultEventLimit;
+    }
+
+    public Duration getResultRetentionDuration()
+    {
+        return resultRetentionDuration;
+    }
+
     public final static class Builder
     {
         private long id;
         private String name;
+        private long checkLimit;
+        private long resultEventLimit;
+        private Duration resultRetentionDuration = Duration.ZERO;
 
         public Builder id(final long id)
         {
@@ -59,11 +91,38 @@ public final class RoleDto
             return this;
         }
 
+        public Builder checkLimit(final long checkLimit)
+        {
+            Validate.notNull(checkLimit);
+
+            this.checkLimit = checkLimit;
+            return this;
+        }
+
+        public Builder resultEventLimit(final long resultEventLimit)
+        {
+            Validate.notNull(resultEventLimit);
+
+            this.resultEventLimit = resultEventLimit;
+            return this;
+        }
+
+        public Builder resultRetentionDuration(final Duration resultRetentionDuration)
+        {
+            Validate.notNull(resultRetentionDuration);
+
+            this.resultRetentionDuration = resultRetentionDuration;
+            return this;
+        }
+
         public RoleDto build()
         {
             return new RoleDto(
                     this.id,
-                    this.name
+                    this.name,
+                    this.checkLimit,
+                    this.resultEventLimit,
+                    this.resultRetentionDuration
             );
         }
     }
