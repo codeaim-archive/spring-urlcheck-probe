@@ -6,5 +6,5 @@ import com.codeaim.urlcheck.domain.ResultDto;
 
 public interface ResultRepository extends CrudRepository<ResultDto, Long>
 {
-    int[] batchInsert(List<ResultDto> resultDtos);
+    int batchInsert(List<ResultDto> resultDtos);
 }

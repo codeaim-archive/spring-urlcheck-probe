@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.Assert;
@@ -494,6 +495,13 @@ public class CheckRepositoryJdbcTest
     }
 
     @Test
+    public void markChecksElectedEmpty()
+    {
+        Collection<CheckDto> electedCheckDtos = checkRepository.markChecksElected(Collections.emptyList());
+        Assert.assertEquals(0, electedCheckDtos.size());
+    }
+
+    @Test
     public void batchUpdate()
     {
         UserDto userDto = UserDto.builder()
@@ -553,5 +561,21 @@ public class CheckRepositoryJdbcTest
         checkRepository.delete(savedSecondCheckDto);
 
         Assert.assertEquals(2, updatedCount);
+    }
+
+    @Test
+    public void batchUpdateEmpty()
+    {
+        int updatedCount = checkRepository.batchUpdate(Collections.emptyList());
+        Assert.assertEquals(0, updatedCount);
+    }
+
+    @Test
+    public void deleteAll()
+    {
+        checkRepository.deleteAll();
+        Collection<CheckDto> checkDtos = checkRepository.findAll();
+
+        Assert.assertEquals(0, checkDtos.size());
     }
 }

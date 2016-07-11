@@ -248,4 +248,13 @@ public class UserRoleRepositoryJdbcTest
 
         Assert.assertNotNull(savedUserRoleDto);
     }
+
+    @Test
+    public void deleteAll()
+    {
+        userRoleRepository.deleteAll();
+        Collection<UserRoleDto> userRoleDtos = userRoleRepository.findAll();
+
+        Assert.assertEquals(0, userRoleDtos.size());
+    }
 }

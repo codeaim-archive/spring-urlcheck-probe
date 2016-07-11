@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -33,7 +32,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 @Component
-public class CheckTask
+public class CheckTask implements ScheduledTask
 {
     private OkHttpClient httpClient;
     private CheckRepository checkRepository;
@@ -129,10 +128,7 @@ public class CheckTask
                     .range(0, electedChecks.size())
                     .mapToObj(index -> Pair.of(electedChecks.get(index), responses.get(index)))
                     .collect(Collectors.toList());
-        } catch (InterruptedException e)
-        {
-            return Collections.emptyList();
-        } catch (ExecutionException e)
+        } catch (Exception e)
         {
             return Collections.emptyList();
         }
@@ -152,7 +148,7 @@ public class CheckTask
         }
     }
 
-    Collection<CheckDto> findElectableChecks(
+    private Collection<CheckDto> findElectableChecks(
             CheckRepository checkRepository,
             String probe,
             boolean isClustered,
@@ -166,7 +162,7 @@ public class CheckTask
                 candidatePoolSize);
     }
 
-    List<CheckDto> markChecksElected(
+    private List<CheckDto> markChecksElected(
             CheckRepository checkRepository,
             Collection<CheckDto> electableChecks
     )

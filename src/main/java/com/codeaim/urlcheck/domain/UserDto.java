@@ -120,8 +120,8 @@ public final class UserDto
         private String accessToken;
         private String password;
         private boolean emailVerified;
-        private Instant created;
-        private Instant modified;
+        private Instant created = Instant.now();
+        private Instant modified = Instant.now();
         private long version;
 
         public Builder id(final long id)
@@ -206,6 +206,12 @@ public final class UserDto
 
         public UserDto build()
         {
+            Validate.notNull(name);
+            Validate.notNull(email);
+            Validate.notNull(resetToken);
+            Validate.notNull(accessToken);
+            Validate.notNull(password);
+
             return new UserDto(
                     this.id,
                     this.name,
@@ -214,8 +220,8 @@ public final class UserDto
                     this.accessToken,
                     this.password,
                     this.emailVerified,
-                    Instant.now(),
-                    this.created == null ? Instant.now() : this.created,
+                    this.created,
+                    this.modified,
                     this.version <= 0 ? 1 : this.version
             );
         }

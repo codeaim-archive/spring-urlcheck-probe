@@ -138,13 +138,13 @@ public final class ResultDto
         private long checkId;
         private OptionalLong previousResultId = OptionalLong.empty();
         private String probe;
-        private Status status;
+        private Status status = Status.UNKNOWN;
         private HttpStatus statusCode;
-        private OptionalLong responseTime;
+        private OptionalLong responseTime = OptionalLong.empty();
         private boolean changed;
         private boolean confirmation;
-        private Instant created;
-        private Instant modified;
+        private Instant created = Instant.now();
+        private Instant modified = Instant.now();
         private long version;
 
         public Builder id(final long id)
@@ -245,18 +245,21 @@ public final class ResultDto
 
         public ResultDto build()
         {
+            Validate.notNull(probe);
+            Validate.notNull(statusCode);
+
             return new ResultDto(
                     this.id,
                     this.checkId,
                     this.previousResultId,
                     this.probe,
-                    this.status == null ? Status.UNKNOWN : this.status,
+                    this.status,
                     this.statusCode,
                     this.responseTime,
                     this.changed,
                     this.confirmation,
-                    this.created == null ? Instant.now() : this.created,
-                    Instant.now(),
+                    this.created,
+                    this.modified,
                     this.version <= 0 ? 1 : this.version
             );
         }

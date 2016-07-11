@@ -117,6 +117,8 @@ public final class RoleDto
 
         public RoleDto build()
         {
+            Validate.notNull(name);
+
             return new RoleDto(
                     this.id,
                     this.name,

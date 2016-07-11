@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 public class Schedule implements SchedulingConfigurer
 {
     boolean isDisabled;
-    CheckTask checkTask;
+    ScheduledTask checkTask;
 
 
     @Autowired
     public Schedule(
             @Value("${com.codeaim.urlcheck.schedule.isDisabled:false}")
             boolean isDisabled,
-            CheckTask checkTask
+            ScheduledTask checkTask
     )
     {
         this.isDisabled = isDisabled;

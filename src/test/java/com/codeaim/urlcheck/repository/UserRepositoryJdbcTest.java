@@ -187,4 +187,13 @@ public class UserRepositoryJdbcTest
 
         Assert.assertEquals("updated", savedUpdatedUserDto.getName());
     }
+
+    @Test
+    public void deleteAll()
+    {
+        userRepository.deleteAll();
+        Collection<UserDto> userDtos = userRepository.findAll();
+
+        Assert.assertEquals(0, userDtos.size());
+    }
 }

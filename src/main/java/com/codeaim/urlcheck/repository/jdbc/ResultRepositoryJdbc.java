@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -198,7 +199,7 @@ public class ResultRepositoryJdbc implements ResultRepository
     }
 
     @Override
-    public int[] batchInsert(List<ResultDto> resultDtos)
+    public int batchInsert(List<ResultDto> resultDtos)
     {
         String insertSql = "INSERT INTO result(check_id, previous_result_id, status, probe, status_code, response_time, changed, confirmation, created, modified, version) VALUES(:check_id, :previous_result_id, :status::status, :probe, :status_code, :response_time, :changed, :confirmation, :created, :modified, :version)";
 
@@ -222,6 +223,6 @@ public class ResultRepositoryJdbc implements ResultRepository
                     .addValue("version", resultDto.getVersion());
         }
 
-        return this.namedParameterJdbcTemplate.batchUpdate(insertSql, parameters);
+        return IntStream.of(this.namedParameterJdbcTemplate.batchUpdate(insertSql, parameters)).sum();
     }
 }

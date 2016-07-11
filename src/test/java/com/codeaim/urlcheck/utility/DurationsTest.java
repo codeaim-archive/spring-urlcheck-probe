@@ -44,4 +44,10 @@ public class DurationsTest
 
         Assert.assertEquals(duration, roundTrippedDuration);
     }
+
+    @Test
+    public void createClass()
+    {
+        new Durations();
+    }
 }

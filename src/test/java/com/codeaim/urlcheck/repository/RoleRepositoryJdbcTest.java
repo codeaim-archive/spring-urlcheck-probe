@@ -149,4 +149,13 @@ public class RoleRepositoryJdbcTest
 
         Assert.assertNotNull(savedRoleDto);
     }
+
+    @Test
+    public void deleteAll()
+    {
+        roleRepository.deleteAll();
+        Collection<RoleDto> roleDtos = roleRepository.findAll();
+
+        Assert.assertEquals(0, roleDtos.size());
+    }
 }

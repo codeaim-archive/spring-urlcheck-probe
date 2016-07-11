@@ -169,11 +169,11 @@ public final class CheckDto
         private String name;
         private HttpUrl url;
         private Optional<String> probe = Optional.empty();
-        private Status status;
-        private State state;
-        private Instant created;
-        private Instant modified;
-        private Instant refresh;
+        private Status status = Status.UNKNOWN;
+        private State state = State.WAITING;
+        private Instant created = Instant.now();
+        private Instant modified = Instant.now();
+        private Instant refresh = Instant.now();
         private Optional<Instant> locked = Optional.empty();
         private int interval;
         private boolean confirming;
@@ -301,6 +301,9 @@ public final class CheckDto
 
         public CheckDto build()
         {
+            Validate.notNull(this.name);
+            Validate.notNull(this.url);
+
             return new CheckDto(
                     this.id,
                     this.userId,
@@ -308,12 +311,12 @@ public final class CheckDto
                     this.name,
                     this.url,
                     this.probe,
-                    this.status == null ? Status.UNKNOWN : this.status,
-                    this.state == null ? State.WAITING : this.state,
-                    this.created == null ? Instant.now() : this.created,
-                    this.modified == null ? Instant.now() : this.modified,
-                    this.refresh == null ? Instant.now() : this.refresh,
-                    this.locked == null ? Optional.of(Instant.now()) : this.locked,
+                    this.status,
+                    this.state,
+                    this.created,
+                    this.modified,
+                    this.refresh,
+                    this.locked,
                     this.interval,
                     this.confirming,
                     this.version <= 0 ? 1 : this.version

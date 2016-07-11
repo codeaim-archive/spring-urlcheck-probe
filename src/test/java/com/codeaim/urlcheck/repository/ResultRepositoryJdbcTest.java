@@ -452,14 +452,22 @@ public class ResultRepositoryJdbcTest
                 .version(1)
                 .build();
 
-        int insertCount = Arrays.stream(
+        int insertCount =
                 resultRepository.batchInsert(
-                        Arrays.asList(firstResultDto, secondResultDto)))
-                .sum();
+                        Arrays.asList(firstResultDto, secondResultDto));
 
         userRepository.delete(savedUserDto);
         checkRepository.delete(savedCheckDto);
 
         Assert.assertEquals(2, insertCount);
+    }
+
+    @Test
+    public void deleteAll()
+    {
+        resultRepository.deleteAll();
+        Collection<ResultDto> resultDtos = resultRepository.findAll();
+
+        Assert.assertEquals(0, resultDtos.size());
     }
 }
