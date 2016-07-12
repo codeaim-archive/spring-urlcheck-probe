@@ -6,8 +6,9 @@ INSERT INTO role VALUES (DEFAULT, 'verified', 10, 20, '24:00:00');
 INSERT INTO role VALUES (DEFAULT, 'admin', 50, 50, '168:00:00');
 
 INSERT INTO user_role VALUES (DEFAULT, 1, 1);
-INSERT INTO user_role VALUES (DEFAULT, 1, 2);
-INSERT INTO user_role VALUES (DEFAULT, 1, 3);
+-- INSERT INTO user_role VALUES (DEFAULT, 1, 2);
+-- INSERT INTO user_role VALUES (DEFAULT, 1, 3);
+
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'facebook.com', 'http://www.facebook.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'twitter.com', 'http://www.twitter.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'google.com', 'http://www.google.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);

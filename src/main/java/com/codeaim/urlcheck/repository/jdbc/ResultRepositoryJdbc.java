@@ -1,14 +1,8 @@
 package com.codeaim.urlcheck.repository.jdbc;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
+import com.codeaim.urlcheck.domain.ResultDto;
+import com.codeaim.urlcheck.domain.Status;
+import com.codeaim.urlcheck.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,9 +14,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.codeaim.urlcheck.domain.ResultDto;
-import com.codeaim.urlcheck.domain.Status;
-import com.codeaim.urlcheck.repository.ResultRepository;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Repository
 public class ResultRepositoryJdbc implements ResultRepository
@@ -196,6 +195,17 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .modified(rs.getTimestamp("modified").toInstant())
                 .version(rs.getLong("version"))
                 .build();
+    }
+
+    @Override
+    public int expireResults(int resultExpiryLimit)
+    {
+        String expireResultsSql = "DELETE FROM \"result\" WHERE \"result\".id IN (SELECT \"result\".id FROM \"result\" INNER JOIN \"check\" ON \"check\".id = \"result\".check_id INNER JOIN (SELECT \"check\".id AS check_id, MAX(\"role\".result_retention_duration) AS maximum_result_retention_duration FROM \"check\" INNER JOIN \"user\" ON \"user\".id = \"check\".user_id INNER JOIN \"user_role\" ON \"user_role\".user_id = \"user\".id INNER JOIN \"role\" ON \"role\".id = \"user_role\".role_id GROUP BY \"check\".id) AS limits ON limits.check_id = \"result\".check_id WHERE (\"result\".changed = FALSE OR \"result\".confirmation = FALSE) AND \"result\".created < (NOW() - limits.maximum_result_retention_duration) AND \"result\".id <> \"check\".latest_result_id LIMIT :result_expiry_limit)";
+
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("result_expiry_limit", resultExpiryLimit);
+
+        return this.namedParameterJdbcTemplate.update(expireResultsSql, parameters);
     }
 
     @Override

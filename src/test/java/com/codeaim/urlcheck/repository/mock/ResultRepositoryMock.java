@@ -14,6 +14,12 @@ public class ResultRepositoryMock implements ResultRepository
 {
 
     @Override
+    public int expireResults(int resultExpiryLimit)
+    {
+        return 0;
+    }
+
+    @Override
     public int batchInsert(List<ResultDto> resultDtos)
     {
         return resultDtos.size();

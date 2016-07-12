@@ -12,18 +12,21 @@ import org.springframework.stereotype.Component;
 public class Schedule implements SchedulingConfigurer
 {
     boolean isDisabled;
-    ScheduledTask checkTask;
+    CheckTask checkTask;
+    ResultExpiryTask resultExpiryTask;
 
 
     @Autowired
     public Schedule(
             @Value("${com.codeaim.urlcheck.schedule.isDisabled:false}")
             boolean isDisabled,
-            ScheduledTask checkTask
+            CheckTask checkTask,
+            ResultExpiryTask resultExpiryTask
     )
     {
         this.isDisabled = isDisabled;
         this.checkTask = checkTask;
+        this.resultExpiryTask = resultExpiryTask;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class Schedule implements SchedulingConfigurer
         if (!isDisabled)
         {
             taskRegistrar.addFixedDelayTask(() -> this.checkTask.run(), 2000);
+            taskRegistrar.addFixedDelayTask(() -> this.resultExpiryTask.run(), 300000);
         }
     }
 }

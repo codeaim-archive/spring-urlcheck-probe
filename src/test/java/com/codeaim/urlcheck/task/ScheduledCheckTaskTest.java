@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutorService;
 @ContextConfiguration(classes = Application.class)
 @TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
-public class CheckTaskTest
+public class ScheduledCheckTaskTest
 {
     @Autowired
     OkHttpClient httpClient;
@@ -31,12 +31,12 @@ public class CheckTaskTest
     @Test
     public void run()
     {
-        new CheckTask(httpClient, executorService,new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
+        new ScheduledCheckTask(httpClient, executorService,new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
     }
 
     @Test
     public void runError()
     {
-        new CheckTask(null, executorService, new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
+        new ScheduledCheckTask(null, executorService, new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
     }
 }
