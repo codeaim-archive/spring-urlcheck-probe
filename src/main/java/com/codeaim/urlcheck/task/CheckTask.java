@@ -1,24 +1,5 @@
 package com.codeaim.urlcheck.task;
 
-import java.io.IOException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-
 import com.codeaim.urlcheck.domain.CheckDto;
 import com.codeaim.urlcheck.domain.ResultDto;
 import com.codeaim.urlcheck.domain.State;
@@ -26,15 +7,29 @@ import com.codeaim.urlcheck.domain.Status;
 import com.codeaim.urlcheck.repository.CheckRepository;
 import com.codeaim.urlcheck.repository.ResultRepository;
 import com.codeaim.urlcheck.utility.Futures;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class CheckTask implements ScheduledTask
 {
     private OkHttpClient httpClient;
+    private ExecutorService executorService;
     private CheckRepository checkRepository;
     private ResultRepository resultRepository;
     private String probe;
@@ -44,17 +39,19 @@ public class CheckTask implements ScheduledTask
     @Autowired
     public CheckTask(
             OkHttpClient httpClient,
+            ExecutorService executorService,
             CheckRepository checkRepository,
             ResultRepository resultRepository,
             @Value("${com.codeaim.urlcheck.probe:Standalone}")
             String probe,
             @Value("${com.codeaim.urlcheck.isClustered:false}")
             boolean isClustered,
-            @Value("${com.codeaim.urlcheck.candidatePoolSize:5}")
+            @Value("${com.codeaim.urlcheck.candidatePoolSize:25}")
             long candidatePoolSize
     )
     {
         this.httpClient = httpClient;
+        this.executorService = executorService;
         this.checkRepository = checkRepository;
         this.resultRepository = resultRepository;
         this.probe = probe;
@@ -120,7 +117,7 @@ public class CheckTask implements ScheduledTask
                             .url(checkUrl)
                             .build())
                     .map(checkUrlRequest ->
-                            CompletableFuture.supplyAsync(() -> requestCheckResponse(httpClient, checkUrlRequest)))
+                            CompletableFuture.supplyAsync(() -> requestCheckResponse(httpClient, checkUrlRequest), executorService))
                     .collect(Collectors.toList()))
                     .get();
 
@@ -139,6 +136,7 @@ public class CheckTask implements ScheduledTask
             Request checkUrlRequest
     )
     {
+        System.out.println("Making request for " + checkUrlRequest.url().toString());
         try
         {
             return Optional.of(httpClient.newCall(checkUrlRequest).execute());
@@ -196,17 +194,17 @@ public class CheckTask implements ScheduledTask
                                 .orElse(OptionalLong.empty()))
                         .statusCode(checkResponsePair
                                 .getValue()
-                                .map(response -> HttpStatus.valueOf(response.code()))
+                                .map(response -> getHttpStatus(response))
                                 .orElse(HttpStatus.INTERNAL_SERVER_ERROR))
                         .status(checkResponsePair
                                 .getValue()
-                                .map(response -> HttpStatus.valueOf(response.code()))
+                                .map(response -> getHttpStatus(response))
                                 .orElse(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .is2xxSuccessful() ? Status.UP : Status.DOWN)
                         .changed(!Objects.equals(
                                 checkResponsePair
                                         .getValue()
-                                        .map(response -> HttpStatus.valueOf(response.code()))
+                                        .map(response -> getHttpStatus(response))
                                         .orElse(HttpStatus.INTERNAL_SERVER_ERROR)
                                         .is2xxSuccessful() ? Status.UP : Status.DOWN,
                                 checkResponsePair.getKey().getStatus()))
@@ -222,8 +220,22 @@ public class CheckTask implements ScheduledTask
 
         return IntStream
                 .range(0, checkResponses.size())
-                .mapToObj(index -> Pair.of(checkResponses.get(index).getKey(), savedCheckResults.get(index)))
+                .mapToObj(index -> {
+                    checkResponses.get(index).getValue().ifPresent(Response::close);
+                    return Pair.of(checkResponses.get(index).getKey(), savedCheckResults.get(index));
+                })
                 .collect(Collectors.toList());
+    }
+
+    private HttpStatus getHttpStatus(Response response)
+    {
+        try
+        {
+            return HttpStatus.valueOf(response.code());
+        } catch (IllegalArgumentException ex)
+        {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
     }
 
     private Collection<CheckDto> updateCheckStatus(

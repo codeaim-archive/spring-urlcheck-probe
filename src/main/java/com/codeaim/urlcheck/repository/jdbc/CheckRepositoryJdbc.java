@@ -214,7 +214,7 @@ public class CheckRepositoryJdbc implements CheckRepository
     @Override
     public Collection<CheckDto> findElectableChecks(String probe, boolean isClustered, Instant instant, long candidatePoolSize)
     {
-        String findElectableChecksSql = "SELECT * FROM \"check\" WHERE ((state = 'WAITING'::state AND refresh <= :instant) OR (state = 'ELECTED'::state AND locked <= :instant)) AND ((:isClustered = FALSE) OR (confirming = FALSE) OR (:isClustered = TRUE AND probe <> :probe)) ORDER BY refresh DESC LIMIT :candidatePoolSize";
+        String findElectableChecksSql = "SELECT * FROM \"check\" WHERE ((state = 'WAITING'::state AND refresh <= :instant) OR (state = 'ELECTED'::state AND locked <= :instant)) AND ((:isClustered = FALSE) OR (confirming = FALSE) OR (:isClustered = TRUE AND probe <> :probe)) ORDER BY status = 'UNKNOWN' DESC, refresh ASC LIMIT :candidatePoolSize";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("instant", Timestamp.from(instant))
@@ -232,7 +232,7 @@ public class CheckRepositoryJdbc implements CheckRepository
         if (checkDtos.isEmpty())
             return Collections.emptyList();
 
-        String markChecksElectedSql = "UPDATE \"check\" SET state = 'ELECTED'::state WHERE id in (:ids)";
+        String markChecksElectedSql = "UPDATE \"check\" SET state = 'ELECTED'::state, locked = (now() + '1 minute') WHERE id in (:ids)";
 
         List<CheckDto> electedChecks = checkDtos.stream()
                 .map(checkDto -> CheckDto.buildFrom(checkDto)

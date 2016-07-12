@@ -14,6 +14,8 @@ import com.codeaim.urlcheck.repository.mock.ResultRepositoryMock;
 
 import okhttp3.OkHttpClient;
 
+import java.util.concurrent.ExecutorService;
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
 @TestPropertySource(locations = "classpath:test.properties")
@@ -23,15 +25,18 @@ public class CheckTaskTest
     @Autowired
     OkHttpClient httpClient;
 
+    @Autowired
+    ExecutorService executorService;
+
     @Test
     public void run()
     {
-        new CheckTask(httpClient, new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
+        new CheckTask(httpClient, executorService,new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
     }
 
     @Test
     public void runError()
     {
-        new CheckTask(null, new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
+        new CheckTask(null, executorService, new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
     }
 }
