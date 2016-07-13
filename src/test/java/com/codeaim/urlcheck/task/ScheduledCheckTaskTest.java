@@ -1,5 +1,6 @@
 package com.codeaim.urlcheck.task;
 
+import com.codeaim.urlcheck.configuration.ProbeConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,18 @@ public class ScheduledCheckTaskTest
     @Autowired
     ExecutorService executorService;
 
+    @Autowired
+    ProbeConfiguration probeConfiguration;
+
     @Test
     public void run()
     {
-        new ScheduledCheckTask(httpClient, executorService,new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
+        new ScheduledCheckTask(httpClient, executorService,new CheckRepositoryMock(), new ResultRepositoryMock(), probeConfiguration).run();
     }
 
     @Test
     public void runError()
     {
-        new ScheduledCheckTask(null, executorService, new CheckRepositoryMock(), new ResultRepositoryMock(), "CheckTaskTest", false, 5).run();
+        new ScheduledCheckTask(null, executorService, new CheckRepositoryMock(), new ResultRepositoryMock(), probeConfiguration).run();
     }
 }

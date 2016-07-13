@@ -1,5 +1,6 @@
 package com.codeaim.urlcheck.task;
 
+import com.codeaim.urlcheck.configuration.ProbeConfiguration;
 import com.codeaim.urlcheck.domain.CheckDto;
 import com.codeaim.urlcheck.domain.ResultDto;
 import com.codeaim.urlcheck.domain.State;
@@ -12,7 +13,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -32,9 +32,7 @@ public class ScheduledCheckTask implements CheckTask
     private ExecutorService executorService;
     private CheckRepository checkRepository;
     private ResultRepository resultRepository;
-    private String probe;
-    private boolean isClustered;
-    private long candidatePoolSize;
+    private ProbeConfiguration probeConfiguration;
 
     @Autowired
     public ScheduledCheckTask(
@@ -42,30 +40,23 @@ public class ScheduledCheckTask implements CheckTask
             ExecutorService executorService,
             CheckRepository checkRepository,
             ResultRepository resultRepository,
-            @Value("${com.codeaim.urlcheck.probe:Standalone}")
-            String probe,
-            @Value("${com.codeaim.urlcheck.isClustered:false}")
-            boolean isClustered,
-            @Value("${com.codeaim.urlcheck.candidatePoolSize:25}")
-            long candidatePoolSize
+            ProbeConfiguration probeConfiguration
     )
     {
         this.httpClient = httpClient;
         this.executorService = executorService;
         this.checkRepository = checkRepository;
         this.resultRepository = resultRepository;
-        this.probe = probe;
-        this.isClustered = isClustered;
-        this.candidatePoolSize = candidatePoolSize;
+        this.probeConfiguration = probeConfiguration;
     }
 
     public void run()
     {
         Collection<CheckDto> electableChecks = findElectableChecks(
                 checkRepository,
-                probe,
-                isClustered,
-                candidatePoolSize);
+                probeConfiguration.getProbeName(),
+                probeConfiguration.isClustered(),
+                probeConfiguration.getCandidatePoolSize());
 
         if (!electableChecks.isEmpty())
         {
@@ -83,14 +74,14 @@ public class ScheduledCheckTask implements CheckTask
                 {
                     Collection<Pair<CheckDto, ResultDto>> checkResults = createCheckResults(
                             resultRepository,
-                            probe,
+                            probeConfiguration.getProbeName(),
                             checkResponses);
 
                     if (!checkResults.isEmpty())
                     {
                         Collection<CheckDto> updatedElectedChecks = updateCheckStatus(
                                 checkRepository,
-                                probe,
+                                probeConfiguration.getProbeName(),
                                 checkResults);
 
                         if (!updatedElectedChecks.isEmpty())

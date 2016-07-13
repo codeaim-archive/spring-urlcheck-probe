@@ -1,10 +1,9 @@
 package com.codeaim.urlcheck.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
+import okhttp3.OkHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import okhttp3.OkHttpClient;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,8 +11,8 @@ import java.util.concurrent.Executors;
 @Configuration
 public class HttpClientConfiguration
 {
-    @Value("${com.codeaim.urlcheck.candidatePoolSize:25}")
-    long candidatePoolSize;
+    @Autowired
+    ProbeConfiguration probeConfiguration;
 
     @Bean
     public OkHttpClient getHttpClient()
@@ -27,6 +26,6 @@ public class HttpClientConfiguration
     @Bean
     public ExecutorService getExecutorService()
     {
-        return Executors.newFixedThreadPool((int) candidatePoolSize);
+        return Executors.newFixedThreadPool((int) probeConfiguration.getCandidatePoolSize());
     }
 }
