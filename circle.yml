@@ -17,10 +17,7 @@ test:
 deployment:
   staging:
     branch: master
-    heroku:
-      appname: url-check-database-sample
-  staging-2:
-    branch: master
-    heroku:
-      appname: url-check-database-sample-2
+    commands:
+      - git push git@heroku.com:url-check-database-sample.git $CIRCLE_SHA1:refs/heads/master
+      - git push git@heroku.com:url-check-database-sample-2.git $CIRCLE_SHA1:refs/heads/master
 
