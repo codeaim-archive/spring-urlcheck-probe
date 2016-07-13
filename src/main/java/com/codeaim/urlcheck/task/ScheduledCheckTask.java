@@ -54,7 +54,7 @@ public class ScheduledCheckTask implements CheckTask
     {
         Collection<CheckDto> electableChecks = findElectableChecks(
                 checkRepository,
-                probeConfiguration.getProbeName(),
+                probeConfiguration.getName(),
                 probeConfiguration.isClustered(),
                 probeConfiguration.getCandidatePoolSize());
 
@@ -74,14 +74,14 @@ public class ScheduledCheckTask implements CheckTask
                 {
                     Collection<Pair<CheckDto, ResultDto>> checkResults = createCheckResults(
                             resultRepository,
-                            probeConfiguration.getProbeName(),
+                            probeConfiguration.getName(),
                             checkResponses);
 
                     if (!checkResults.isEmpty())
                     {
                         Collection<CheckDto> updatedElectedChecks = updateCheckStatus(
                                 checkRepository,
-                                probeConfiguration.getProbeName(),
+                                probeConfiguration.getName(),
                                 checkResults);
 
                         if (!updatedElectedChecks.isEmpty())

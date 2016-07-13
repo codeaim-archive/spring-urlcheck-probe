@@ -7,20 +7,20 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "com.codeaim.urlcheck.probe")
 public class ProbeConfiguration
 {
-    private String probeName = "Standalone";
+    private String name = "Standalone";
     private long candidatePoolSize = 25;
     private int resultExpirySize = 10000;
     private boolean clustered;
     private boolean scheduleDisabled;
 
-    public String getProbeName()
+    public String getName()
     {
-        return probeName;
+        return name;
     }
 
-    public void setProbeName(String probeName)
+    public void setName(String name)
     {
-        this.probeName = probeName;
+        this.name = name;
     }
 
     public long getCandidatePoolSize()
