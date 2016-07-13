@@ -18,4 +18,4 @@ deployment:
   staging:
     branch: master
     heroku:
-      appname: urlcheck-probe
+      appname: url-check-database-sample
