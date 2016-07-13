@@ -19,3 +19,8 @@ deployment:
     branch: master
     heroku:
       appname: url-check-database-sample
+  staging-2:
+    branch: master
+        heroku:
+          appname: url-check-database-sample-2
+
