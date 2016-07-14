@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.codeaim.urlcheck</groupId>
-    <artifactId>urlcheck-database-sample</artifactId>
+    <artifactId>urlcheck-probe</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>urlcheck-database-sample</name>
+    <name>urlcheck-probe</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
