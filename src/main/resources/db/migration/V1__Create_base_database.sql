@@ -3,7 +3,7 @@ CREATE TYPE state AS ENUM ('WAITING', 'ELECTED');
 
 CREATE TABLE "user" (
   id             BIGSERIAL    NOT NULL PRIMARY KEY,
-  name           VARCHAR(255) NOT NULL,
+  username       VARCHAR(255) NOT NULL UNIQUE,
   email          VARCHAR(255) NOT NULL UNIQUE,
   reset_token    VARCHAR(255) NOT NULL,
   access_token   VARCHAR(255) NOT NULL,

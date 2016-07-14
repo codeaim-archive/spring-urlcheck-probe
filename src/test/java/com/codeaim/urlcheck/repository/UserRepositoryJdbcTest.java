@@ -29,7 +29,7 @@ public class UserRepositoryJdbcTest
     public void save()
     {
         UserDto firstUserDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -38,7 +38,7 @@ public class UserRepositoryJdbcTest
                 .build();
 
         UserDto secondUserDto = UserDto.builder()
-                .name("name2")
+                .username("username2")
                 .email("email2@example.com")
                 .resetToken("resetToken2")
                 .accessToken("accessToken2")
@@ -59,7 +59,7 @@ public class UserRepositoryJdbcTest
     public void findOne()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -80,7 +80,7 @@ public class UserRepositoryJdbcTest
     public void exists()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -117,7 +117,7 @@ public class UserRepositoryJdbcTest
     public void findAllByIds()
     {
         UserDto firstUserDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -126,7 +126,7 @@ public class UserRepositoryJdbcTest
                 .build();
 
         UserDto secondUserDto = UserDto.builder()
-                .name("name2")
+                .username("username2")
                 .email("email2@example.com")
                 .resetToken("resetToken2")
                 .accessToken("accessToken2")
@@ -148,7 +148,7 @@ public class UserRepositoryJdbcTest
     public void insert()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -167,7 +167,7 @@ public class UserRepositoryJdbcTest
     public void update()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -178,14 +178,14 @@ public class UserRepositoryJdbcTest
         UserDto savedUserDto = userRepository.save(userDto);
 
         UserDto updatedUserDto = UserDto.buildFrom(savedUserDto)
-                .name("updated")
+                .username("updated")
                 .build();
 
         UserDto savedUpdatedUserDto = userRepository.save(updatedUserDto);
 
         userRepository.delete(savedUpdatedUserDto);
 
-        Assert.assertEquals("updated", savedUpdatedUserDto.getName());
+        Assert.assertEquals("updated", savedUpdatedUserDto.getUsername());
     }
 
     @Test

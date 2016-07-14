@@ -42,7 +42,7 @@ public class ResultRepositoryJdbcTest
     public void save()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -108,7 +108,7 @@ public class ResultRepositoryJdbcTest
     public void findOne()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -160,7 +160,7 @@ public class ResultRepositoryJdbcTest
     public void exists()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -228,7 +228,7 @@ public class ResultRepositoryJdbcTest
     public void findAllByIds()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -297,7 +297,7 @@ public class ResultRepositoryJdbcTest
     public void insert()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -347,7 +347,7 @@ public class ResultRepositoryJdbcTest
     public void update()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -402,7 +402,7 @@ public class ResultRepositoryJdbcTest
     public void batchInsert()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")

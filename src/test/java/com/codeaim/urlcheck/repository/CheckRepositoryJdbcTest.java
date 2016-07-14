@@ -39,7 +39,7 @@ public class CheckRepositoryJdbcTest
     public void save()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -91,7 +91,7 @@ public class CheckRepositoryJdbcTest
     public void findOne()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -127,7 +127,7 @@ public class CheckRepositoryJdbcTest
     public void exists()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -179,7 +179,7 @@ public class CheckRepositoryJdbcTest
     public void findAllByIds()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -231,7 +231,7 @@ public class CheckRepositoryJdbcTest
     public void insert()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -265,7 +265,7 @@ public class CheckRepositoryJdbcTest
     public void update()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -305,7 +305,7 @@ public class CheckRepositoryJdbcTest
     public void findElectableChecks()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -440,7 +440,7 @@ public class CheckRepositoryJdbcTest
     public void markChecksElected()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -505,7 +505,7 @@ public class CheckRepositoryJdbcTest
     public void batchUpdate()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")

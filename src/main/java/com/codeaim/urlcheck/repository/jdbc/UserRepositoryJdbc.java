@@ -124,11 +124,11 @@ public class UserRepositoryJdbc implements UserRepository
 
     private UserDto insert(UserDto userDto)
     {
-        String insertSql = "INSERT INTO \"user\"(name, email, reset_token, access_token, password, email_verified, created, modified, version) VALUES(:name, :email, :reset_token, :access_token, :password, :email_verified, :created, :modified, :version)";
+        String insertSql = "INSERT INTO \"user\"(username, email, reset_token, access_token, password, email_verified, created, modified, version) VALUES(:username, :email, :reset_token, :access_token, :password, :email_verified, :created, :modified, :version)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("name", userDto.getName())
+                .addValue("username", userDto.getUsername())
                 .addValue("email", userDto.getEmail())
                 .addValue("reset_token", userDto.getResetToken())
                 .addValue("access_token", userDto.getAccessToken())
@@ -147,7 +147,7 @@ public class UserRepositoryJdbc implements UserRepository
 
     private UserDto update(UserDto userDto)
     {
-        String updateSql = "UPDATE \"user\" SET name = :name, email = :email, reset_token = :reset_token, access_token = :access_token, password = :password, email_verified = :email_verified, created = :created, modified = :modified, version = :version WHERE id = :id";
+        String updateSql = "UPDATE \"user\" SET username = :username, email = :email, reset_token = :reset_token, access_token = :access_token, password = :password, email_verified = :email_verified, created = :created, modified = :modified, version = :version WHERE id = :id";
 
         UserDto updatedUserDto = UserDto.buildFrom(userDto)
                 .modified(Instant.now())
@@ -156,7 +156,7 @@ public class UserRepositoryJdbc implements UserRepository
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", updatedUserDto.getId())
-                .addValue("name", updatedUserDto.getName())
+                .addValue("username", updatedUserDto.getUsername())
                 .addValue("email", updatedUserDto.getEmail())
                 .addValue("reset_token", updatedUserDto.getResetToken())
                 .addValue("access_token", updatedUserDto.getAccessToken())
@@ -175,7 +175,7 @@ public class UserRepositoryJdbc implements UserRepository
     {
         return (rs, rowNum) -> UserDto.builder()
                 .id(rs.getLong("id"))
-                .name(rs.getString("name"))
+                .username(rs.getString("username"))
                 .email(rs.getString("email"))
                 .resetToken(rs.getString("reset_token"))
                 .accessToken(rs.getString("access_token"))

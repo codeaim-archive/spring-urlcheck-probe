@@ -7,7 +7,7 @@ import org.apache.commons.lang3.Validate;
 public final class UserDto
 {
     private long id;
-    private String name;
+    private String username;
     private String email;
     private String resetToken;
     private String accessToken;
@@ -19,7 +19,7 @@ public final class UserDto
 
     private UserDto(
             final long id,
-            final String name,
+            final String username,
             final String email,
             final String resetToken,
             final String accessToken,
@@ -31,7 +31,7 @@ public final class UserDto
     )
     {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.email = email;
         this.resetToken = resetToken;
         this.accessToken = accessToken;
@@ -51,7 +51,7 @@ public final class UserDto
     {
         return builder()
                 .id(userDto.getId())
-                .name(userDto.getName())
+                .username(userDto.getUsername())
                 .email(userDto.getEmail())
                 .resetToken(userDto.getResetToken())
                 .accessToken(userDto.getAccessToken())
@@ -66,9 +66,9 @@ public final class UserDto
         return id;
     }
 
-    public String getName()
+    public String getUsername()
     {
-        return name;
+        return username;
     }
 
     public String getEmail()
@@ -114,7 +114,7 @@ public final class UserDto
     public final static class Builder
     {
         private long id;
-        private String name;
+        private String username;
         private String email;
         private String resetToken;
         private String accessToken;
@@ -132,11 +132,11 @@ public final class UserDto
             return this;
         }
 
-        public Builder name(final String name)
+        public Builder username(final String username)
         {
-            Validate.notNull(name);
+            Validate.notNull(username);
 
-            this.name = name;
+            this.username = username;
             return this;
         }
 
@@ -206,7 +206,7 @@ public final class UserDto
 
         public UserDto build()
         {
-            Validate.notNull(name);
+            Validate.notNull(username);
             Validate.notNull(email);
             Validate.notNull(resetToken);
             Validate.notNull(accessToken);
@@ -214,7 +214,7 @@ public final class UserDto
 
             return new UserDto(
                     this.id,
-                    this.name,
+                    this.username,
                     this.email,
                     this.resetToken,
                     this.accessToken,

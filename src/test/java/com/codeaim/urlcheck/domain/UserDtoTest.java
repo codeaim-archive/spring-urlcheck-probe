@@ -19,7 +19,7 @@ public class UserDtoTest
     {
         UserDto userDto = UserDto.builder()
                 .id(1)
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -30,7 +30,7 @@ public class UserDtoTest
                 .build();
 
         Assert.assertEquals(1, userDto.getId());
-        Assert.assertEquals("name", userDto.getName());
+        Assert.assertEquals("username", userDto.getUsername());
         Assert.assertEquals("email@example.com", userDto.getEmail());
         Assert.assertEquals("resetToken", userDto.getResetToken());
         Assert.assertEquals("accessToken", userDto.getAccessToken());
@@ -46,7 +46,7 @@ public class UserDtoTest
     {
         UserDto userDto = UserDto.buildFrom(UserDto.builder()
                 .id(1)
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -59,7 +59,7 @@ public class UserDtoTest
                 .build();
 
         Assert.assertEquals(1, userDto.getId());
-        Assert.assertEquals("name", userDto.getName());
+        Assert.assertEquals("username", userDto.getUsername());
         Assert.assertEquals("email@example.com", userDto.getEmail());
         Assert.assertEquals("resetToken", userDto.getResetToken());
         Assert.assertEquals("accessToken", userDto.getAccessToken());

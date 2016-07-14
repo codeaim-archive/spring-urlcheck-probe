@@ -35,7 +35,7 @@ public class UserRoleRepositoryJdbcTest
     public void save()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -83,7 +83,7 @@ public class UserRoleRepositoryJdbcTest
     public void findOne()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -119,7 +119,7 @@ public class UserRoleRepositoryJdbcTest
     public void exists()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -171,7 +171,7 @@ public class UserRoleRepositoryJdbcTest
     public void findAllByIds()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
@@ -219,7 +219,7 @@ public class UserRoleRepositoryJdbcTest
     public void insert()
     {
         UserDto userDto = UserDto.builder()
-                .name("name")
+                .username("username")
                 .email("email@example.com")
                 .resetToken("resetToken")
                 .accessToken("accessToken")
