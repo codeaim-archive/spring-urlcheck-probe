@@ -75,8 +75,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto secondResultDto = ResultDto.builder()
@@ -88,8 +86,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         Collection<ResultDto> savedResultDtos = resultRepository.save(Arrays.asList(firstResultDto, secondResultDto));
@@ -141,8 +137,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto savedResultDto = resultRepository.save(resultDto);
@@ -193,8 +187,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto savedResultDto = resultRepository.save(resultDto);
@@ -261,8 +253,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto savedFirstResultDto = resultRepository.save(firstResultDto);
@@ -276,8 +266,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto savedSecondResultDto = resultRepository.save(secondResultDto);
@@ -330,8 +318,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto savedResultDto = resultRepository.save(resultDto);
@@ -379,8 +365,6 @@ public class ResultRepositoryJdbcTest
                 .responseTime(OptionalLong.of(1000))
                 .changed(true)
                 .confirmation(true)
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto savedResultDto = resultRepository.save(resultDto);
@@ -435,8 +419,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         ResultDto secondResultDto = ResultDto.builder()
@@ -448,8 +430,6 @@ public class ResultRepositoryJdbcTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         int insertCount =

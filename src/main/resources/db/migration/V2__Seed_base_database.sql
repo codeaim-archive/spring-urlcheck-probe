@@ -510,5 +510,5 @@ INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'zendesk.com', 'http://www.zendesk
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'nginx.com', 'http://www.nginx.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'plesk.com', 'http://www.plesk.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 
-INSERT INTO result VALUES (DEFAULT, 1, NULL, 'UP' ::status, 'Europe', 200, 1000, TRUE, FALSE, now(), now(), 1);
-INSERT INTO result VALUES (DEFAULT, 2, NULL, 'UP' ::status, 'Europe', 200, 1000, TRUE, FALSE, now(), now(), 1);
+INSERT INTO result VALUES (DEFAULT, 1, NULL, 'UP' ::status, 'Europe', 200, 1000, TRUE, FALSE, now());
+INSERT INTO result VALUES (DEFAULT, 2, NULL, 'UP' ::status, 'Europe', 200, 1000, TRUE, FALSE, now());

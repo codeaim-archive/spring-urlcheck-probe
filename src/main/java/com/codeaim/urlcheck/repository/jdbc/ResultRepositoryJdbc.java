@@ -114,21 +114,7 @@ public class ResultRepositoryJdbc implements ResultRepository
     @Override
     public ResultDto save(ResultDto resultDto)
     {
-        if (resultDto.getId() == 0)
-            return insert(resultDto);
-
-        return update(resultDto);
-    }
-
-    @Override
-    public Collection<ResultDto> save(Collection<ResultDto> entities)
-    {
-        return entities.stream().map(this::save).collect(Collectors.toList());
-    }
-
-    private ResultDto insert(ResultDto resultDto)
-    {
-        String insertSql = "INSERT INTO result(check_id, previous_result_id, status, probe, status_code, response_time, changed, confirmation, created, modified, version) VALUES(:check_id, :previous_result_id, :status::status, :probe, :status_code, :response_time, :changed, :confirmation, :created, :modified, :version)";
+        String insertSql = "INSERT INTO result(check_id, previous_result_id, status, probe, status_code, response_time, changed, confirmation, created) VALUES(:check_id, :previous_result_id, :status::status, :probe, :status_code, :response_time, :changed, :confirmation, :created)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameters = new MapSqlParameterSource()
@@ -140,9 +126,7 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .addValue("response_time", resultDto.getResponseTime().isPresent() ? resultDto.getResponseTime().getAsLong() : null)
                 .addValue("changed", resultDto.isChanged())
                 .addValue("confirmation", resultDto.isConfirmation())
-                .addValue("created", Timestamp.from(resultDto.getCreated()))
-                .addValue("modified", Timestamp.from(resultDto.getModified()))
-                .addValue("version", resultDto.getVersion());
+                .addValue("created", Timestamp.from(resultDto.getCreated()));
 
         this.namedParameterJdbcTemplate.update(insertSql, parameters, keyHolder, new String[]{"id"});
 
@@ -151,32 +135,10 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .build();
     }
 
-    private ResultDto update(ResultDto resultDto)
+    @Override
+    public Collection<ResultDto> save(Collection<ResultDto> entities)
     {
-        String updateSql = "UPDATE result SET check_id = :check_id, previous_result_id = :previous_result_id, status = :status::status, probe = :probe, status_code = :status_code, response_time = :response_time, changed = :changed, confirmation = :confirmation, created = :created, modified = :modified, version = :version WHERE id = :id";
-
-        ResultDto updatedResultDto = ResultDto.buildFrom(resultDto)
-                .modified(Instant.now())
-                .version(resultDto.getVersion() + 1)
-                .build();
-
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", updatedResultDto.getId())
-                .addValue("check_id", updatedResultDto.getCheckId())
-                .addValue("previous_result_id", updatedResultDto.getPreviousResultId().isPresent() ? resultDto.getPreviousResultId().getAsLong() : null)
-                .addValue("status", updatedResultDto.getStatus().toString())
-                .addValue("probe", updatedResultDto.getProbe())
-                .addValue("status_code", updatedResultDto.getStatusCode().value())
-                .addValue("response_time", updatedResultDto.getResponseTime().isPresent() ? resultDto.getResponseTime().getAsLong() : null)
-                .addValue("changed", updatedResultDto.isChanged())
-                .addValue("confirmation", updatedResultDto.isConfirmation())
-                .addValue("created", Timestamp.from(updatedResultDto.getCreated()))
-                .addValue("modified", Timestamp.from(updatedResultDto.getModified()))
-                .addValue("version", updatedResultDto.getVersion());
-
-        this.namedParameterJdbcTemplate.update(updateSql, parameters);
-
-        return updatedResultDto;
+        return entities.stream().map(this::save).collect(Collectors.toList());
     }
 
     private RowMapper<ResultDto> mapResultDto()
@@ -192,8 +154,6 @@ public class ResultRepositoryJdbc implements ResultRepository
                 .changed(rs.getBoolean("changed"))
                 .confirmation(rs.getBoolean("confirmation"))
                 .created(rs.getTimestamp("created").toInstant())
-                .modified(rs.getTimestamp("modified").toInstant())
-                .version(rs.getLong("version"))
                 .build();
     }
 
@@ -211,7 +171,7 @@ public class ResultRepositoryJdbc implements ResultRepository
     @Override
     public int batchInsert(List<ResultDto> resultDtos)
     {
-        String insertSql = "INSERT INTO result(check_id, previous_result_id, status, probe, status_code, response_time, changed, confirmation, created, modified, version) VALUES(:check_id, :previous_result_id, :status::status, :probe, :status_code, :response_time, :changed, :confirmation, :created, :modified, :version)";
+        String insertSql = "INSERT INTO result(check_id, previous_result_id, status, probe, status_code, response_time, changed, confirmation, created) VALUES(:check_id, :previous_result_id, :status::status, :probe, :status_code, :response_time, :changed, :confirmation, :created)";
 
         SqlParameterSource[] parameters =
                 new SqlParameterSource[resultDtos.size()];
@@ -228,9 +188,7 @@ public class ResultRepositoryJdbc implements ResultRepository
                     .addValue("response_time", resultDto.getResponseTime().isPresent() ? resultDto.getResponseTime().getAsLong() : null)
                     .addValue("changed", resultDto.isChanged())
                     .addValue("confirmation", resultDto.isConfirmation())
-                    .addValue("created", Timestamp.from(resultDto.getCreated()))
-                    .addValue("modified", Timestamp.from(resultDto.getModified()))
-                    .addValue("version", resultDto.getVersion());
+                    .addValue("created", Timestamp.from(resultDto.getCreated()));
         }
 
         return IntStream.of(this.namedParameterJdbcTemplate.batchUpdate(insertSql, parameters)).sum();

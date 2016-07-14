@@ -30,8 +30,6 @@ public class ResultDtoTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build();
 
         Assert.assertEquals(1, resultDto.getId());
@@ -44,8 +42,6 @@ public class ResultDtoTest
         Assert.assertEquals(true, resultDto.isChanged());
         Assert.assertEquals(true, resultDto.isConfirmation());
         Assert.assertNotNull(resultDto.getCreated());
-        Assert.assertNotNull(resultDto.getModified());
-        Assert.assertEquals(1, resultDto.getVersion());
     }
 
     @Test
@@ -62,8 +58,6 @@ public class ResultDtoTest
                 .changed(true)
                 .confirmation(true)
                 .created(Instant.now())
-                .modified(Instant.now())
-                .version(1)
                 .build())
                 .build();
 
@@ -77,7 +71,5 @@ public class ResultDtoTest
         Assert.assertEquals(true, resultDto.isChanged());
         Assert.assertEquals(true, resultDto.isConfirmation());
         Assert.assertNotNull(resultDto.getCreated());
-        Assert.assertNotNull(resultDto.getModified());
-        Assert.assertEquals(1, resultDto.getVersion());
     }
 }

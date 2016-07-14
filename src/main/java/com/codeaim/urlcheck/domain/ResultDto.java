@@ -1,10 +1,10 @@
 package com.codeaim.urlcheck.domain;
 
-import java.time.Instant;
-import java.util.OptionalLong;
-
 import org.apache.commons.lang3.Validate;
 import org.springframework.http.HttpStatus;
+
+import java.time.Instant;
+import java.util.OptionalLong;
 
 public final class ResultDto
 {
@@ -18,8 +18,6 @@ public final class ResultDto
     private boolean changed;
     private boolean confirmation;
     private Instant created;
-    private Instant modified;
-    private long version;
 
     private ResultDto(
             final long id,
@@ -31,9 +29,7 @@ public final class ResultDto
             final OptionalLong responseTime,
             final boolean changed,
             final boolean confirmation,
-            final Instant created,
-            final Instant modified,
-            final long version
+            final Instant created
     )
     {
         this.id = id;
@@ -46,8 +42,6 @@ public final class ResultDto
         this.changed = changed;
         this.confirmation = confirmation;
         this.created = created;
-        this.modified = modified;
-        this.version = version;
     }
 
     public static Builder builder()
@@ -67,9 +61,7 @@ public final class ResultDto
                 .responseTime(resultDto.getResponseTime())
                 .changed(resultDto.isChanged())
                 .confirmation(resultDto.isConfirmation())
-                .created(resultDto.getCreated())
-                .modified(resultDto.getModified())
-                .version(resultDto.getVersion());
+                .created(resultDto.getCreated());
     }
 
     public long getId()
@@ -122,16 +114,6 @@ public final class ResultDto
         return created;
     }
 
-    public Instant getModified()
-    {
-        return modified;
-    }
-
-    public long getVersion()
-    {
-        return version;
-    }
-
     public final static class Builder
     {
         private long id;
@@ -144,8 +126,6 @@ public final class ResultDto
         private boolean changed;
         private boolean confirmation;
         private Instant created = Instant.now();
-        private Instant modified = Instant.now();
-        private long version;
 
         public Builder id(final long id)
         {
@@ -227,22 +207,6 @@ public final class ResultDto
             return this;
         }
 
-        public Builder modified(final Instant modified)
-        {
-            Validate.notNull(modified);
-
-            this.modified = modified;
-            return this;
-        }
-
-        public Builder version(final long version)
-        {
-            Validate.notNull(version);
-
-            this.version = version;
-            return this;
-        }
-
         public ResultDto build()
         {
             Validate.notNull(probe);
@@ -258,9 +222,7 @@ public final class ResultDto
                     this.responseTime,
                     this.changed,
                     this.confirmation,
-                    this.created,
-                    this.modified,
-                    this.version <= 0 ? 1 : this.version
+                    this.created
             );
         }
     }

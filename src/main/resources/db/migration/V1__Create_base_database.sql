@@ -56,9 +56,7 @@ CREATE TABLE result (
   response_time      BIGINT       NULL,
   changed            BOOLEAN      NOT NULL,
   confirmation       BOOLEAN      NOT NULL,
-  created            TIMESTAMP    NOT NULL,
-  modified           TIMESTAMP    NOT NULL,
-  version            BIGINT       NOT NULL
+  created            TIMESTAMP    NOT NULL
 );
 
 ALTER TABLE "check"
