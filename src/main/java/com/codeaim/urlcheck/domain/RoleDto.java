@@ -1,8 +1,8 @@
 package com.codeaim.urlcheck.domain;
 
-import java.time.Duration;
-
 import org.apache.commons.lang3.Validate;
+
+import java.time.Duration;
 
 public final class RoleDto
 {
@@ -11,13 +11,15 @@ public final class RoleDto
     private long checkLimit;
     private long resultEventLimit;
     private Duration resultRetentionDuration;
+    private double price;
 
     private RoleDto(
             final long id,
             final String name,
             final long checkLimit,
             final long resultEventLimit,
-            final Duration resultRetentionDuration
+            final Duration resultRetentionDuration,
+            final double price
     )
     {
         this.id = id;
@@ -25,6 +27,7 @@ public final class RoleDto
         this.checkLimit = checkLimit;
         this.resultEventLimit = resultEventLimit;
         this.resultRetentionDuration = resultRetentionDuration;
+        this.price = price;
     }
 
     public static Builder builder()
@@ -39,7 +42,8 @@ public final class RoleDto
                 .name(roleDto.getName())
                 .checkLimit(roleDto.getCheckLimit())
                 .resultEventLimit(roleDto.getResultEventLimit())
-                .resultRetentionDuration(roleDto.getResultRetentionDuration());
+                .resultRetentionDuration(roleDto.getResultRetentionDuration())
+                .price(roleDto.getPrice());
     }
 
     public long getId()
@@ -67,6 +71,11 @@ public final class RoleDto
         return resultRetentionDuration;
     }
 
+    public double getPrice()
+    {
+        return price;
+    }
+
     public final static class Builder
     {
         private long id;
@@ -74,6 +83,7 @@ public final class RoleDto
         private long checkLimit;
         private long resultEventLimit;
         private Duration resultRetentionDuration = Duration.ZERO;
+        private double price;
 
         public Builder id(final long id)
         {
@@ -115,6 +125,14 @@ public final class RoleDto
             return this;
         }
 
+        public Builder price(final double price)
+        {
+            Validate.notNull(price);
+
+            this.price = price;
+            return this;
+        }
+
         public RoleDto build()
         {
             Validate.notNull(name);
@@ -124,7 +142,8 @@ public final class RoleDto
                     this.name,
                     this.checkLimit,
                     this.resultEventLimit,
-                    this.resultRetentionDuration
+                    this.resultRetentionDuration,
+                    this.price
             );
         }
     }

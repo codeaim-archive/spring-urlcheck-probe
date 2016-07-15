@@ -110,14 +110,15 @@ public class RoleRepositoryJdbc implements RoleRepository
     @Override
     public RoleDto save(RoleDto roleDto)
     {
-        String insertSql = "INSERT INTO role(name, check_limit, result_event_limit, result_retention_duration) VALUES(:name, :check_limit, :result_event_limit, :result_retention_duration)";
+        String insertSql = "INSERT INTO role(name, check_limit, result_event_limit, result_retention_duration, price) VALUES(:name, :check_limit, :result_event_limit, :result_retention_duration, :price)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", roleDto.getName())
                 .addValue("check_limit", roleDto.getCheckLimit())
                 .addValue("result_event_limit", roleDto.getResultEventLimit())
-                .addValue("result_retention_duration", Durations.convert(roleDto.getResultRetentionDuration()));
+                .addValue("result_retention_duration", Durations.convert(roleDto.getResultRetentionDuration()))
+                .addValue("price", roleDto.getPrice());
 
         this.namedParameterJdbcTemplate.update(insertSql, parameters, keyHolder, new String[]{"id"});
 
@@ -140,6 +141,7 @@ public class RoleRepositoryJdbc implements RoleRepository
                 .checkLimit(rs.getLong("check_limit"))
                 .resultEventLimit(rs.getLong("result_event_limit"))
                 .resultRetentionDuration(Durations.convert((PGInterval) rs.getObject("result_retention_duration")))
+                .price(rs.getDouble("price"))
                 .build();
     }
 }

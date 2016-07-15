@@ -1,13 +1,24 @@
 INSERT INTO "user"
 VALUES (DEFAULT, 'gdownes', 'gdownes@gmail.com', 'reset_token', 'access_token', 'password', TRUE, now(), now(), 1);
 
-INSERT INTO role VALUES (DEFAULT, 'registered', 0, 0, '00:00:00');
-INSERT INTO role VALUES (DEFAULT, 'verified', 10, 20, '24:00:00');
-INSERT INTO role VALUES (DEFAULT, 'admin', 50, 50, '168:00:00');
+INSERT INTO role VALUES (DEFAULT, 'registered', 0, 0, '0', 0.00);
+INSERT INTO role VALUES (DEFAULT, 'free', 10, 20, '1 day', 0.00);
+INSERT INTO role VALUES (DEFAULT, 'standard', 50, 50, '1 week', 4.95);
+INSERT INTO role VALUES (DEFAULT, 'standard plus', 100, 100, '1 month', 9.95);
+INSERT INTO role VALUES (DEFAULT, 'premium', 250, 500, '3 months', 19.95);
+INSERT INTO role VALUES (DEFAULT, 'premium plus', 500, 500, '3 months', 29.95);
+INSERT INTO role VALUES (DEFAULT, 'professional', 1000, 1000, '6 months', 49.95);
+INSERT INTO role VALUES (DEFAULT, 'professional plus', 2000, 1000, '6 months', 89.95);
+INSERT INTO role VALUES (DEFAULT, 'enterprise', 5000, 2500, '1 year', 179.95);
+INSERT INTO role VALUES (DEFAULT, 'enterprise plus', 10000, 2500, '1 year', 349.95);
+INSERT INTO role VALUES (DEFAULT, 'admin', 0, 0, '0', 0.00);
 
 INSERT INTO user_role VALUES (DEFAULT, 1, 1);
--- INSERT INTO user_role VALUES (DEFAULT, 1, 2);
--- INSERT INTO user_role VALUES (DEFAULT, 1, 3);
+INSERT INTO user_role VALUES (DEFAULT, 1, 2);
+INSERT INTO user_role VALUES (DEFAULT, 1, 11);
+
+INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'urlcheck-probe-eu', 'https://urlcheck-probe-eu.herokuapp.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
+INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'urlcheck-probe-us', 'https://urlcheck-probe-us.herokuapp.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'facebook.com', 'http://www.facebook.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'twitter.com', 'http://www.twitter.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
@@ -508,7 +519,3 @@ INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'searchengineland.com', 'http://ww
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'gmx.de', 'http://www.gmx.de/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'zendesk.com', 'http://www.zendesk.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
 INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'nginx.com', 'http://www.nginx.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
-INSERT INTO "check" VALUES (DEFAULT, 1, NULL, 'plesk.com', 'http://www.plesk.com/', NULL, 'UNKNOWN' ::status, 'WAITING' ::state, now(), now(), now(), NULL, 1, FALSE, 1);
-
-INSERT INTO result VALUES (DEFAULT, 1, NULL, 'UP' ::status, 'Europe', 200, 1000, TRUE, FALSE, now());
-INSERT INTO result VALUES (DEFAULT, 2, NULL, 'UP' ::status, 'Europe', 200, 1000, TRUE, FALSE, now());
